@@ -1,0 +1,22 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+// @import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+.pointer{
+    cursor: pointer;
+}
+
+
+.scale-1{
+    transition: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+.scale-1:hover{
+    transform: translateY(-10px)
+}
