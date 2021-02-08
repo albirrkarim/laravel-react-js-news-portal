@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from "react";
-import { TextField,Grid } from "@material-ui/core";
+import React, { useState } from "react";
+import { TextField } from "@material-ui/core";
 
 export default function Search({
     setSearch,
@@ -28,22 +28,24 @@ export default function Search({
     };
 
     return (
-        <Grid container justify="center" className="mb-2">
-            <Grid item xs={12} sm={12} md={6} lg={6} className="mb-3" style={{height:"70px"}} >
-                <TextField
-                    label={label}
-                    fullWidth={true}
-                    type="search"
-                    value={text}
-                    onChange={doSearch}
-                    variant="outlined"
-                    placeholder={placeholder}
-                />
+        <div>
+            <TextField
+                label={label}
+                fullWidth={true}
+                type="search"
+                value={text}
+                size="small"
+                onChange={doSearch}
+                variant="outlined"
+                placeholder={placeholder}
+                color="secondary"
+            />
 
-                {text.length > 0 && text.length < 3 && (
-                    <p className="text-muted mt-2" >At least 3 character to search !</p>
-                )}
-            </Grid>
-        </Grid>
+            {text.length > 0 && text.length < 3 && (
+                <small className="text-muted">
+                    At least 3 character to search !
+                </small>
+            )}
+        </div>
     );
 }

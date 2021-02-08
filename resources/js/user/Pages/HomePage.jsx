@@ -1,19 +1,7 @@
-import React, {
-    Suspense,
-    lazy,
-    useEffect,
-    useState,
-    useContext,
-    Fragment,
-
-} from "react";
-
-import { Grid,Button } from "@material-ui/core";
-import { BsChatDots } from "react-icons/bs";
-import {Link} from 'react-router-dom';
+import React from "react";
 
 import Template from "./Template";
 
-export default function HomePage (){
-	return <Template />
+export default function HomePage() {
+    return <Template />;
 }

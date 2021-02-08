@@ -1,7 +1,55 @@
 // All Css Here
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
 //@import "./assets/css/plugins.css";
 //@import "./assets/scss/style";
 //@import "~slick-carousel/slick/slick.css";
 //@import "~slick-carousel/slick/slick-theme.css";
 //@import 'node_modules/react-modal-video/scss/modal-video.scss';
+
+.vertical-center {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.card-news {
+    transition: transform 0.2s !important;
+    transition-timing-function: ease-in-out !important;
+}
+
+.card-news:hover {
+    transform: scale(1.05, 1.05);
+}
+
+.scrollable-hidden::-webkit-scrollbar {
+    height: 0px;
+}
+
+.scrollable {
+    overflow-y: scroll;
+    height: 380px;
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* width */
+.scrollable-show::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+/* Track */
+.scrollable::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.scrollable::-webkit-scrollbar-thumb {
+    background: #f44336;
+}
+
+/* Handle on hover */
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

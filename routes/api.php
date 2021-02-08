@@ -18,7 +18,9 @@ Route::get('newsall',        'NewsController@all');
 Route::get('news/{url}',     'NewsController@show');
 
 Route::get('contents/category/{category_id}','ContentsController@show');
-Route::get('contents/detail/{url}',     'NewsController@info');
+Route::get('contents/detail/{contents_id}',  'ContentsController@info');
+
+Route::get('search/{text}',     'HomeController@search');
 
 Route::get('categories',     'CategoriesController@all');
 

@@ -8,28 +8,27 @@ import DashboardPage from "./Pages/DashboardPage";
 const routes = [
     {
         path: "/",
-        element: <HomePage />
+        element: <HomePage />,
     },
     {
         path: "/news",
-        element: <NewsPage />
+        element: <NewsPage />,
     },
 
     {
-        path: "/news/:news_name",
-        element: <NewsPage />
+        path: "/news/:news_id",
+        element: <NewsPage />,
     },
 
     {
         path: "/dashboard",
-        element: <DashboardPage />
+        element: <DashboardPage />,
     },
 
     {
-        path: "/dashboard/:contents_name",
-        element: <DashboardPage />
+        path: "/dashboard/:contents_id",
+        element: <DashboardPage />,
     },
-
 ];
 
 export default routes;

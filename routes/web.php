@@ -21,7 +21,7 @@ Route::middleware(["optimize"])->group( function () {
   Route::get('/', 'HomeController@welcome');
   Route::get('404', 'HomeController@welcome');
   Route::get('news/{any?}/{id?}', 'HomeController@welcome');
-  Route::get('contents/{any?}/{id?}', 'HomeController@welcome');
+  Route::get('dashboard/{any?}/{id?}', 'HomeController@welcome');
 });
 
 Auth::routes([

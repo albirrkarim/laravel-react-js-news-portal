@@ -10,7 +10,7 @@ import React, {
 
 import { Grid,Button } from "@material-ui/core";
 import { BsChatDots } from "react-icons/bs";
-import {Link} from 'react-router-dom';
+import {Link,useParams} from 'react-router-dom';
 
 import Template from "./Template";
 
@@ -20,7 +20,9 @@ import CardNews from "../Components/CardNews";
 
 export default function HomePage (){
 
-	const [news_id,setNewsId]=useState(null);
+	let { news_id } = useParams();
+
+	// const [news_id,setNewsId]=useState(null);
 	const [news,setNews]=useState(null);
 
 	const [newsList,setNewsList]=useState([]);
@@ -32,10 +34,14 @@ export default function HomePage (){
 
 		if(newsList.length==0){
 			axios.get(location.origin+"/api/newsall").then((resp)=>{
-				setNewsList(resp.data);
+				let arrData= resp.data;
+				setNewsList(arrData);
 
+				let len =arrData.length;
 
-				let len =resp.data.length;
+				if(len>0){
+					setNews(arrData[0]);
+				}
 
 				let half = parseInt(len/2);
 
@@ -64,32 +70,39 @@ export default function HomePage (){
 
 	return (
 		<Template>
-			<h1 className="text-center" >News</h1>
+			<h1 className="text-center">NEWS FEED</h1>
 			
-			<Grid container spacing={5}>
-				<Grid item xs={3}>
+			<Grid container spacing={7} className="mt-2 mb-2 w-100 bg-light">
+				<Grid item lg={3} md={3} sm={12} xs={12} className="scrollable">
 					{
 						newsLeft.map((item,idx)=>(
-							<CardNews key={idx} setNewsId={setNewsId} item={newsList[item]}  />
+							<CardNews key={idx} item={newsList[item]}  />
 						))	
 					}
 
 				</Grid>
 
-				<Grid item xs={6}>
+				<Grid item lg={6} md={6} sm={12} xs={12} className="scrollable">
 					{
 						news && (
 							<Fragment>
-								{news.name}
+								<h4 className="mb-3">{news.name}</h4>
+								<p
+			                        style={{ opacity: "0.85" }}
+			                        className="text-justify"
+			                        dangerouslySetInnerHTML={{
+			                            __html: news.text,
+			                        }}
+			                    ></p>
 							</Fragment>
 						)
 					}
 				</Grid>
 
-				<Grid item xs={3}>
-					 {
+				<Grid item lg={3} md={3} sm={12} xs={12} className="scrollable">
+					{
 						newsRight.map((item,idx)=>(
-							<CardNews key={idx} setNewsId={setNewsId} item={newsList[item]}  />
+							<CardNews key={idx} item={newsList[item]}  />
 						))	 
 					}
 				</Grid>

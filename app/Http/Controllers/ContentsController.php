@@ -154,9 +154,9 @@ class ContentsController extends Controller
     }
 
 
-    public function show($contents_id)
+    public function show($category_id)
     {
-        return json_encode(Contents::where("contents_id", $contents_id)->get());
+        return json_encode(Contents::where("category_id", $category_id)->get());
     }
 
 
