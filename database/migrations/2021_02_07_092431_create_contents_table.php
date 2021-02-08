@@ -17,7 +17,7 @@ class CreateContentsTable extends Migration
             $table->increments("contents_id");
             $table->text('name');
             $table->text('text');
-            $table->string('file',40);
+            $table->string('file',40)->nullable();
             $table->integer('category_id');
             $table->timestamps();
         });

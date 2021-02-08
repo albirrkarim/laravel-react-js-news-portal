@@ -8,42 +8,33 @@ import {
     Grid,
     Typography,
     Button,
-    AppBar,
-    Tabs,
-    Tab,
-    makeStyles
+    makeStyles,
 } from "@material-ui/core";
 
-
 import DeleteButton from "../../components/CardCRUD/DeleteButton";
-import ShareLink from "../../components/ShareLink";
-
 import { str_limit, alphaNumeric } from "../../utils/helper";
-
 import FormEdit from "./Partials/FormEdit";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     statsItem: {
         alignItems: "center",
-        display: "flex"
+        display: "flex",
     },
     statsIcon: {
-        marginRight: theme.spacing(1)
-    }
+        marginRight: theme.spacing(1),
+    },
 }));
 
 const CardClass = ({ item, refreshData }) => {
-
-    let mode="news"
+    let mode = "news";
     const classes = useStyles();
 
     const [value, setValue] = useState(0);
     const [isEditMode, setIsEditMode] = useState(false);
-
 
     const BASE_URL = location.origin + "/data/news/" + item.news_id;
 
@@ -84,32 +75,35 @@ const CardClass = ({ item, refreshData }) => {
                                 </Button>
                             </Grid>
                         </Grid>
-                    
+
                         <FormEdit
                             mode={mode}
                             item={item}
                             setIsEditMode={setIsEditMode}
                             refreshData={refreshData}
                         />
-                       
                     </CardContent>
                 ) : (
                     <CardContent className="p-0">
-                        <Box display="flex" justifyContent="center" mb={3}>
-                            <img
-                                className="rounded w-100 pointer"
-                                style={{ maxHeight: 300 + "px" }}
-                                src={
-                                    location.origin +
-                                    "/storage/images/" +
-                                    item.file
-                                }
-                                alt={item.name}
-                                onClick={() => {
-                                    setIsEditMode(true);
-                                }}
-                            />
-                        </Box>
+                        {
+                            item.file && 
+                            <Box display="flex" justifyContent="center" mb={3}>
+                                <img
+                                    className="rounded w-100 pointer"
+                                    style={{ maxHeight: 300 + "px" }}
+                                    src={
+                                        location.origin +
+                                        "/storage/images/" +
+                                        item.file
+                                    }
+                                    alt={item.name}
+                                    onClick={() => {
+                                        setIsEditMode(true);
+                                    }}
+                                />
+                            </Box>
+                        }
+                        
                         <Typography
                             align="center"
                             color="textPrimary"
@@ -120,6 +114,18 @@ const CardClass = ({ item, refreshData }) => {
                         </Typography>
 
                         <div className="p-2">
+                            <Button   
+
+                                size="small"
+                                variant="contained"
+                                className="mr-2"
+                                onClick={() => {
+                                    setIsEditMode(true);
+                                }}
+                            >
+
+                                Edit
+                            </Button>
                             <DeleteButton
                                 url={BASE_URL}
                                 refreshData={refreshData}

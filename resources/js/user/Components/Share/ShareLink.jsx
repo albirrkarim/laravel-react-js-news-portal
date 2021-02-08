@@ -79,7 +79,7 @@ export default function ShareLink({
                     onClick={shareNative}
                     variant={openMenu ? "contained" : "outlined"}
                     size="medium"
-                    color="secondary"
+                    color="primary"
                     endIcon={openMenu ? <BsX /> : null}
                 >
                     Share

@@ -11,14 +11,6 @@ const mix = require('laravel-mix');
  |
  */
 
-// mix.react('resources/js/user/index.jsx', 'public/js/app.js');
-// mix.sass('resources/sass/app.scss', 'public/css');
-
-// mix.react('resources/js/admin/index.jsx', 'public/js/admin.js');
-// mix.sass('resources/sass/admin.scss', 'public/css');
-
-
-
 mix.js('resources/js/user/index.jsx', 'public/js/app.js')
 	.react()
 	.options({

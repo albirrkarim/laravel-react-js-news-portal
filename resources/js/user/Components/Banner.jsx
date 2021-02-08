@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 
-export default function HomePage() {
+export default function Banner() {
     const [file, setFile] = useState("#");
 
     useEffect(() => {

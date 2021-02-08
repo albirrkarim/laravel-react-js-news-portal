@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import axios from "axios";
@@ -15,49 +15,42 @@ import {
     CircularProgress,
     Button,
     makeStyles,
-    InputLabel
+    InputLabel,
 } from "@material-ui/core";
 
-import $ from "jquery";
 import DeleteIcon from "@material-ui/icons/Delete";
+import dataKey from "./data";
 
-import dataKey  from "./data";
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     statsItem: {
         alignItems: "center",
-        display: "flex"
+        display: "flex",
     },
     statsIcon: {
-        marginRight: theme.spacing(1)
-    }
+        marginRight: theme.spacing(1),
+    },
 }));
 
-
-
-const SettingClass = ({setting,refreshData}) => {
+const SettingClass = ({ setting, refreshData }) => {
     const classes = useStyles();
 
-    const [key,setKey]=useState(setting.key);
-    const [value,setValue]=useState(setting.value);
-    const [role,setRole]=useState(setting.role);
+    const [key, setKey] = useState(setting.key);
+    const [value, setValue] = useState(setting.value);
+    const [role, setRole] = useState(setting.role);
 
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [isEditMode,setIsEditMode]=useState(false);
-    const [isLoading,setIsLoading]=useState(false);
+    const [fileName, setFileName] = useState("Select file");
+    const [file, setFile] = useState();
 
+    const BASE_URL = location.origin + "/data/settings/" + setting.id;
 
-    const [fileName,setFileName]=useState("Select file");
-    const [file,setFile]=useState();
-
-
-    const BASE_URL= location.origin+ "/data/settings/" + setting.id;
-
-    function makeName (s){
+    function makeName(s) {
         let n = s.substr(s.lastIndexOf("\\") + 1);
         if (n.length > 50) {
             n = n.substring(0, 50);
@@ -73,18 +66,18 @@ const SettingClass = ({setting,refreshData}) => {
         return str;
     }
 
-    let changeFile = (e)=>{
+    let changeFile = (e) => {
         setFile(e.target.files[0]);
         setFileName(makeName(e.target.value));
-    }
+    };
 
-    let store = (event) =>{
+    let store = (event) => {
         event.preventDefault();
 
         const config = {
             headers: {
-                "content-type": "multipart/form-data"
-            }
+                "content-type": "multipart/form-data",
+            },
         };
 
         const formData = new FormData();
@@ -92,43 +85,45 @@ const SettingClass = ({setting,refreshData}) => {
         formData.append("key", key);
         formData.append("value", value);
         formData.append("role", role);
-    
-        formData.append("file",file);
+
+        formData.append("file", file);
 
         setIsLoading(true);
-        axios.post(BASE_URL, formData, config).then(function(data) {
-
-            if (data.data == true) {
-                refreshData();
-            } else {
-                alert("Gagal edit data !");
-            }
-
-            console.clear();
-
-            setFile(null);
-            setFileName("Select file");
-
-            setIsEditMode(false);
-
-            setIsLoading(false);
-        }).catch(function (error) {
-            alert(error.message);
-        });
-    }
-
-    let deleteFunc = (e)=>{
         axios
-            .delete(BASE_URL)
-            .then(()=>{
-                refreshData();
-            }).catch(function (error) {
+            .post(BASE_URL, formData, config)
+            .then(function (data) {
+                if (data.data == true) {
+                    refreshData();
+                } else {
+                    alert("Gagal edit data !");
+                }
+
+                console.clear();
+
+                setFile(null);
+                setFileName("Select file");
+
+                setIsEditMode(false);
+
+                setIsLoading(false);
+            })
+            .catch(function (error) {
                 alert(error.message);
             });
-    }
+    };
 
+    let deleteFunc = (e) => {
+        axios
+            .delete(BASE_URL)
+            .then(() => {
+                refreshData();
+            })
+            .catch(function (error) {
+                alert(error.message);
+            });
+    };
 
-    let getForm = ()=>{
+    let getForm = () => {
         return (
             <Card className={clsx(classes.root)}>
                 <CardContent>
@@ -138,65 +133,62 @@ const SettingClass = ({setting,refreshData}) => {
                         onSubmit={store}
                         encType="multipart/form-data"
                     >
-                        <TextField
-                            type="hidden"
-                            name="_token"
-                            value={$('[name="csrf-token"]').attr("content")}
-                        />
-
                         <InputLabel>Key</InputLabel>
                         <Select
-                          labelId="key"
-                          value={key}
-                          name="key"
-                          className="mb-3"
-                          onChange={(e)=>{setKey(e.target.value)}}
+                            labelId="key"
+                            value={key}
+                            name="key"
+                            className="mb-3"
+                            onChange={(e) => {
+                                setKey(e.target.value);
+                            }}
                         >
-                            {
-                                dataKey.map((item,index)=>(
-                                    <MenuItem  key={index} onClick={()=>{setRole(item[1])}} value={item[0]}>{item[0]}</MenuItem>
-                                ))
-                            }
-                     
-                        </Select>                       
+                            {dataKey.map((item, index) => (
+                                <MenuItem
+                                    key={index}
+                                    onClick={() => {
+                                        setRole(item[1]);
+                                    }}
+                                    value={item[0]}
+                                >
+                                    {item[0]}
+                                </MenuItem>
+                            ))}
+                        </Select>
 
-                        {
-                            role == "text" ? (
-                                <TextField
-                                    label="value"
-                                    required
+                        {role == "text" ? (
+                            <TextField
+                                label="value"
+                                required
+                                fullWidth
+                                multiline
+                                rows={10}
+                                margin="dense"
+                                onChange={(e) => {
+                                    setValue(e.target.value);
+                                }}
+                                value={value}
+                                name="value"
+                                variant="outlined"
+                            />
+                        ) : (
+                            <div className="form-group">
+                                <Button
+                                    variant="contained"
+                                    component="label"
                                     fullWidth
-                                    multiline
-                                    rows={10}
-                                    margin="dense"
-                                    onChange={(e)=>{setValue(e.target.value)}}
-                                    value={value}
-                                    name="value"
-                                    variant="outlined"
-                                />
+                                >
+                                    {fileName}
+                                    <input
+                                        type="file"
+                                        onChange={changeFile}
+                                        style={{ display: "none" }}
+                                        name="file"
+                                    />
+                                </Button>
+                            </div>
+                        )}
 
-                            ):(
-
-                                <div className="form-group">
-                                    <Button
-                                        variant="contained"
-                                        component="label"
-                                        fullWidth
-                                    >
-                                        {fileName}
-                                        <input
-                                            type="file"
-                                            onChange={changeFile}
-                                            style={{ display: "none" }}
-                                            name="file"
-                                        />
-                                    </Button>
-                                </div>
-
-                            )
-                        }
-
-            
                         <div className="form-group">
                             <Grid container spacing={3}>
                                 <Grid
@@ -206,7 +198,9 @@ const SettingClass = ({setting,refreshData}) => {
                                 >
                                     <Button
                                         color="secondary"
-                                        onClick={()=>{setIsEditMode(false)}}
+                                        onClick={() => {
+                                            setIsEditMode(false);
+                                        }}
                                     >
                                         Cancel
                                     </Button>
@@ -230,11 +224,8 @@ const SettingClass = ({setting,refreshData}) => {
                 </CardContent>
             </Card>
         );
-    }
+    };
 
-
-
-  
     if (isEditMode) {
         if (isLoading) {
             return (
@@ -250,46 +241,50 @@ const SettingClass = ({setting,refreshData}) => {
     } else {
         return (
             <Card className={clsx(classes.root)}>
-                <CardContent onClick={()=>{setIsEditMode(true)}}>
-
-                    <Typography
-                        align="center"
-                        gutterBottom
-                        variant="h4"
-                    >
+                <CardContent
+                    onClick={() => {
+                        setIsEditMode(true);
+                    }}
+                >
+                    <Typography align="center" gutterBottom variant="h4">
                         {str_limit(key)}
                     </Typography>
 
-                    {
-                        setting.role == "text" ? (
-                            <Typography
-                                align="center"
-                                className="text-muted"
-                                variant="body1"
-                            >
-                                {str_limit(value)}
-                            </Typography>
-
-                        ):(
-                            <Box display="flex" justifyContent="center" mb={3}>
-                            {
-                                setting.role == "image" ? (
-                                    <img
-                                        style={{ maxHeight: 300 + "px" }}
-                                        className="w-100 rounded"
-                                        src={location.origin +"/storage/logo/" +setting.file}
-                                        alt={key}
-                                    />
-                                ):(
-                                    <video className="w-100 rounded" style={{ maxHeight: 300 + "px" }} controls src={location.origin+"/storage/video/"+setting.file}>
-                                    </video>
-                                )
-                            }
-                            </Box>
-                        )
-                    }
-                    
-                   
+                    {setting.role == "text" ? (
+                        <Typography
+                            align="center"
+                            className="text-muted"
+                            variant="body1"
+                        >
+                            {str_limit(value)}
+                        </Typography>
+                    ) : (
+                        <Box display="flex" justifyContent="center" mb={3}>
+                            {setting.role == "image" ? (
+                                <img
+                                    style={{ maxHeight: 300 + "px" }}
+                                    className="w-100 rounded"
+                                    src={
+                                        location.origin +
+                                        "/storage/logo/" +
+                                        setting.file
+                                    }
+                                    alt={key}
+                                />
+                            ) : (
+                                <video
+                                    className="w-100 rounded"
+                                    style={{ maxHeight: 300 + "px" }}
+                                    controls
+                                    src={
+                                        location.origin +
+                                        "/storage/video/" +
+                                        setting.file
+                                    }
+                                ></video>
+                            )}
+                        </Box>
+                    )}
                 </CardContent>
                 <Box flexGrow={1} />
                 <Divider />
@@ -300,7 +295,7 @@ const SettingClass = ({setting,refreshData}) => {
                         color="secondary"
                         className={classes.button}
                         startIcon={<DeleteIcon />}
-                        onClick={e =>
+                        onClick={(e) =>
                             window.confirm(
                                 "Are you sure you wish to delete this item?"
                             ) && deleteFunc(e)
@@ -312,6 +307,6 @@ const SettingClass = ({setting,refreshData}) => {
             </Card>
         );
     }
-}
+};
 
 export default SettingClass;

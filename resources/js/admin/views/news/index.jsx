@@ -6,22 +6,22 @@ import Card from "./Card";
 import axios from "axios";
 import CardAdd from "./CardAdd";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.dark,
         minHeight: "100%",
         paddingBottom: theme.spacing(3),
-        paddingTop: theme.spacing(3)
+        paddingTop: theme.spacing(3),
     },
     productCard: {
-        height: "100%"
-    }
+        height: "100%",
+    },
 }));
 
 export default function News() {
     const classes = useStyles();
 
-    let mode ="news"
+    let mode = "news";
 
     const [isLoading, setIsLoading] = useState(true);
     const [items, setItems] = useState([]);
@@ -36,7 +36,7 @@ export default function News() {
         setIsLoading(true);
         axios
             .get(`${location.origin}/data/news?page=${currentPage}`)
-            .then(resp => {
+            .then((resp) => {
                 let { data, last_page, current_page } = resp.data;
 
                 setItems(data);
@@ -44,7 +44,7 @@ export default function News() {
                 setCurrentPage(current_page);
                 setIsLoading(false);
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 setIsLoading(false);
                 alert(error.message);
             });
@@ -55,7 +55,7 @@ export default function News() {
     };
 
     function capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     return (

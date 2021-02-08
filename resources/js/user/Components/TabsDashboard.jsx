@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ScrollableTabsButtonAuto() {
+export default function TabsDashboard() {
     const [value, setValue] = useState(0);
     const [category_id, setCategoryId] = useState(0);
     const [categories, setCategories] = useState([]);
@@ -41,7 +41,7 @@ export default function ScrollableTabsButtonAuto() {
     }, []);
 
     return (
-        <Grid container justify="center">
+        <Grid container justify="center" style={{minHeight:"500px"}} >
             <Grid item lg={10} md={10} sm={12} xs={12}>
                 <AppBar position="static" color="default">
                     <Tabs

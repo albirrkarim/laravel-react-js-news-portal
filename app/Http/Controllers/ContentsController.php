@@ -90,15 +90,7 @@ class ContentsController extends Controller
     public function info($contents_id)
     {
         try {
-            $data = Contents::where("contents_id", $contents_id)
-                ->select([
-                    "contents_id",
-                    "name",
-                    "text",
-                    "file",
-                    "category_id",
-                ])
-                ->first();
+            $data = Contents::where("contents_id", $contents_id)->first();
 
             if ($data != null) {
                 return json_encode(
@@ -122,7 +114,7 @@ class ContentsController extends Controller
     public function index()
     {
         return json_encode(
-            Contents::orderBy("name", "ASC")->paginate(10)
+            Contents::orderBy("created_at", "DESC")->paginate(10)
         );
 
     }

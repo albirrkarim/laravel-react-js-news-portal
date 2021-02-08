@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import clsx from "clsx";
@@ -17,42 +17,37 @@ import {
     CircularProgress,
     IconButton,
     makeStyles,
-    InputLabel
+    InputLabel,
 } from "@material-ui/core";
 
-import $ from "jquery";
+import dataKey from "./data";
 
-import dataKey  from "./data";
-
-const classes = makeStyles(theme => ({
+const classes = makeStyles((theme) => ({
     root: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     statsItem: {
         alignItems: "center",
-        display: "flex"
+        display: "flex",
     },
     statsIcon: {
-        marginRight: theme.spacing(1)
-    }
+        marginRight: theme.spacing(1),
+    },
 }));
 
+const CardAddClass = ({ refreshData }) => {
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
+    const [key, setKey] = useState(dataKey[0][0]);
+    const [value, setValue] = useState("");
+    const [role, setRole] = useState(dataKey[0][1]);
 
-const CardAddClass = ({refreshData}) =>{
+    const [fileName, setFileName] = useState("Select file");
+    const [file, setFile] = useState();
 
-    const [isEditMode,setIsEditMode] = useState(false);
-    const [isLoading,setIsLoading] = useState(false);
-
-    const [key,setKey]=useState(dataKey[0][0]);
-    const [value,setValue]=useState("");
-    const [role,setRole]=useState(dataKey[0][1]);
-
-    const [fileName,setFileName]=useState("Select file");
-    const [file,setFile]=useState();
-
-    function makeName (s){
+    function makeName(s) {
         let n = s.substr(s.lastIndexOf("\\") + 1);
         if (n.length > 50) {
             n = n.substring(0, 50);
@@ -61,51 +56,52 @@ const CardAddClass = ({refreshData}) =>{
         return n;
     }
 
-    let changeFile = (e)=>{
+    let changeFile = (e) => {
         setFile(e.target.files[0]);
         setFileName(makeName(e.target.value));
-    }
+    };
 
-    let store  = (event)=>{
+    let store = (event) => {
         event.preventDefault();
 
         const url = location.origin + "/data/settings";
 
         const config = {
             headers: {
-                "content-type": "multipart/form-data"
-            }
+                "content-type": "multipart/form-data",
+            },
         };
 
         const formData = new FormData();
-        
 
         formData.append("key", key);
         formData.append("value", value);
         formData.append("role", role);
-    
-        formData.append("file",file);
+
+        formData.append("file", file);
 
         setIsLoading(true);
-        axios.post(url, formData, config).then(function(data) {
-            if (data.data == true) {
-                refreshData();
-            } else {
-                alert("Gagal edit data !");
-            }
+        axios
+            .post(url, formData, config)
+            .then(function (data) {
+                if (data.data == true) {
+                    refreshData();
+                } else {
+                    alert("Gagal edit data !");
+                }
 
-            setIsLoading(false);
-            setIsEditMode(false);
+                setIsLoading(false);
+                setIsEditMode(false);
 
-            setValue("");
+                setValue("");
 
-            setFile(null);
-            setFileName("Select file");
-        }).catch(function (error) {
-            alert(error.message);
-        });
-    }
-
+                setFile(null);
+                setFileName("Select file");
+            })
+            .catch(function (error) {
+                alert(error.message);
+            });
+    };
 
     if (isEditMode) {
         if (isLoading) {
@@ -121,73 +117,62 @@ const CardAddClass = ({refreshData}) =>{
                 <Card className={clsx(classes.root)}>
                     <CardContent>
                         <form onSubmit={store} method="post">
-                            <TextField
-                                type="hidden"
-                                name="_token"
-                                value={$('[name="csrf-token"]').attr(
-                                    "content"
-                                )}
-                            />
-
-                            <TextField
-                                type="hidden"
-                                name="role"
-                                value={role}
-                            />
+                            <TextField type="hidden" name="role" value={role} />
 
                             <InputLabel>Key</InputLabel>
                             <Select
-                              labelId="key"
-                              value={key}
-                              name="key"
-                              onChange={(e)=>{setKey(e.target.value)}}
+                                labelId="key"
+                                value={key}
+                                name="key"
+                                onChange={(e) => {
+                                    setKey(e.target.value);
+                                }}
                             >
-                                {
-                                    
-                                    dataKey.map((item,index)=>(
-
-                                        <MenuItem  key={index} onClick={()=>{ setRole(item[1]) }} value={item[0]}>{item[0]}</MenuItem>
-                                    ))
-                                }
-                         
+                                {dataKey.map((item, index) => (
+                                    <MenuItem
+                                        key={index}
+                                        onClick={() => {
+                                            setRole(item[1]);
+                                        }}
+                                        value={item[0]}
+                                    >
+                                        {item[0]}
+                                    </MenuItem>
+                                ))}
                             </Select>
 
-                            {
-                                role == "text" ? (
-                                    <TextField
-                                        label="value"
-                                        required
+                            {role == "text" ? (
+                                <TextField
+                                    label="value"
+                                    required
+                                    fullWidth
+                                    multiline
+                                    rows={10}
+                                    margin="dense"
+                                    name="value"
+                                    value={value}
+                                    onChange={(e) => {
+                                        setValue(e.target.value);
+                                    }}
+                                    variant="outlined"
+                                />
+                            ) : (
+                                <div className="form-group">
+                                    <Button
+                                        variant="contained"
+                                        component="label"
                                         fullWidth
-                                        multiline
-                                        rows={10}
-                                        margin="dense"
-                                        name="value"
-                                        value={value}
-                                        onChange={(e)=>{setValue(e.target.value)}}
-                                        variant="outlined"
-                                    />
-
-                                ):(
-
-                                    <div className="form-group">
-                                        <Button
-                                            variant="contained"
-                                            component="label"
-                                            fullWidth
-                                        >
-                                            {fileName}
-                                            <input
-                                                type="file"
-                                                onChange={changeFile}
-                                                style={{ display: "none" }}
-                                                name="file"
-                                            />
-                                        </Button>
-                                    </div>
-
-                                )
-                            }
-
+                                    >
+                                        {fileName}
+                                        <input
+                                            type="file"
+                                            onChange={changeFile}
+                                            style={{ display: "none" }}
+                                            name="file"
+                                        />
+                                    </Button>
+                                </div>
+                            )}
 
                             <div className="form-group">
                                 <Grid container spacing={3}>
@@ -198,7 +183,9 @@ const CardAddClass = ({refreshData}) =>{
                                     >
                                         <Button
                                             color="secondary"
-                                            onClick={()=>{setIsEditMode(false)}}
+                                            onClick={() => {
+                                                setIsEditMode(false);
+                                            }}
                                         >
                                             Cancel
                                         </Button>
@@ -228,7 +215,9 @@ const CardAddClass = ({refreshData}) =>{
             <Button
                 variant="contained"
                 color="secondary"
-                onClick={()=>{setIsEditMode(true)}}
+                onClick={() => {
+                    setIsEditMode(true);
+                }}
                 className={classes.button}
                 startIcon={<ControlPointIcon />}
             >
@@ -236,7 +225,6 @@ const CardAddClass = ({refreshData}) =>{
             </Button>
         );
     }
-}
-
+};
 
 export default CardAddClass;

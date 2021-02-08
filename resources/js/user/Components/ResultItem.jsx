@@ -46,7 +46,7 @@ export default function ResultItem({ item, handleClose }) {
 
                 <IconButton
                     size="small"
-                    color="secondary"
+                    color="primary"
                     aria-label="share"
                     onClick={() => {
                         setOpenShare(!openShare);

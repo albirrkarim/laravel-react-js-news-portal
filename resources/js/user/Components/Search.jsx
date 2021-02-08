@@ -6,7 +6,7 @@ export default function Search({
     setIsLoading,
     isLoading,
 
-    label = "Search room",
+    label = "Search news / contents",
     placeholder = "",
 }) {
     const [text, setText] = useState("");
@@ -38,7 +38,7 @@ export default function Search({
                 onChange={doSearch}
                 variant="outlined"
                 placeholder={placeholder}
-                color="secondary"
+                color="primary"
             />
 
             {text.length > 0 && text.length < 3 && (

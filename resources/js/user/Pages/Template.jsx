@@ -43,29 +43,23 @@ export default function Template({ children = null }) {
     }, [searchText]);
 
     return (
-        <div className="bg-light pt-2">
-            <Grid container spacing={3} className="mb-3 w-100">
-                <Grid item xs={6} container justify="flex-start">
+        <div className="bg-light">
+            <Grid container spacing={3} className="mb-3 mt-2 w-100">
+                <Grid item lg={6} md={6} sm={12} xs={12} container justify="flex-start">
                     {children && (
-                        <Typography
-                            color="secondary"
-                            className="ml-2"
-                            variant="h5"
-                            component="h2"
-                            gutterBottom
-                        >
-                            TELKOMSEL DIGITAL SOLUTION CARE CENTER
-                        </Typography>
+                        <Link className="text-decoration-none" to="/">
+                            <img style={{maxWidth:"200px"}} src={location.origin+"/images/tdscc.png"} />
+                        </Link>
                     )}
                 </Grid>
 
-                <Grid item xs={6} container justify="flex-end">
-                    <Grid item xs={8} container justify="flex-end">
+                <Grid item lg={6} md={6} sm={12} xs={12} container justify="flex-end">
+                    <Grid item lg={8} md={8} sm={12} xs={12} className="mb-2" container justify="flex-end">
                         <Link className="text-decoration-none" to="/">
                             <Button
                                 className="mr-2"
                                 variant="contained"
-                                color="secondary"
+                                color="primary"
                             >
                                 Home
                             </Button>
@@ -74,7 +68,7 @@ export default function Template({ children = null }) {
                             <Button
                                 className="mr-2"
                                 variant="contained"
-                                color="secondary"
+                                color="primary"
                             >
                                 News
                             </Button>
@@ -83,13 +77,13 @@ export default function Template({ children = null }) {
                             <Button
                                 className="mr-2"
                                 variant="contained"
-                                color="secondary"
+                                color="primary"
                             >
                                 Dashboard
                             </Button>
                         </Link>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item lg={4} md={4} sm={12} xs={12} className="mb-2">
                         <Search
                             setIsLoading={setIsLoading}
                             isLoading={isLoading}
@@ -106,7 +100,7 @@ export default function Template({ children = null }) {
                         <ResultList
                             results={results}
                             handleClose={() => {
-                                searchText("");
+                                setSearchText("");
                             }}
                         />
                     )}
@@ -116,29 +110,18 @@ export default function Template({ children = null }) {
                     {children ? (
                         <div className="p-2">
                             {children}
-                            <div
-                                className="w-100"
-                                style={{ position: "absolute", bottom: 0 }}
-                            >
-                                <Banner />
-                                <RunningText text="Selamat Datang di Portal TDSCC" />
-                            </div>
+                          
+                            <Banner />
+                            <RunningText text="Selamat Datang di Portal TDSCC" />
+                    
                         </div>
                     ) : (
                         <div className="container">
-                            <Grid container spacing={5}>
+                            <Grid container spacing={3}>
                                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                                    <Typography
-                                        color="secondary"
-                                        className="vertical-center"
-                                        variant="h4"
-                                        component="h2"
-                                        gutterBottom
-                                    >
-                                        TELKOMSEL DIGITAL SOLUTION
-                                        <br />
-                                        CARE CENTER
-                                    </Typography>
+                                    <div className="vertical-center bg-light rounded">
+                                        <img style={{maxWidth:"400px"}} src={location.origin+"/images/tdscc.png"} />
+                                    </div>
                                 </Grid>
                                 <Grid item lg={6} md={6} sm={12} xs={12}>
                                     <img

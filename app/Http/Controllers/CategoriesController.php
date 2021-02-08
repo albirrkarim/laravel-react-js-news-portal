@@ -40,7 +40,7 @@ class CategoriesController extends Controller
     public function index()
     {
         return json_encode(
-            Categories::orderBy("name", "ASC")->paginate(10)
+            Categories::orderBy("created_at", "DESC")->paginate(10)
         );
     }
 

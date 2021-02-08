@@ -13,7 +13,7 @@ import {
     AppBar,
     Tabs,
     Tab,
-    makeStyles
+    makeStyles,
 } from "@material-ui/core";
 
 import DeleteButton from "../../../components/CardCRUD/DeleteButton";
@@ -23,14 +23,14 @@ import {
     normalize,
     makeName,
     str_limit,
-    alphaNumeric
+    alphaNumeric,
 } from "../../../utils/helper";
 import EditNav from "../../../components/CardCRUD/EditNav";
 import InputText from "../../../components/FormInput/InputText";
 import InputCkEditor from "../../../components/FormInput/InputCkEditor";
 import InputImage from "../../../components/FormInput/InputImage";
 
-export default function FormEdit({ item,setIsEditMode, refreshData }) {
+export default function FormEdit({ item, setIsEditMode, refreshData }) {
     const [name, setName] = useState(item.name);
     const [text, setText] = useState(item.text);
 
@@ -40,13 +40,13 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
 
     const BASE_URL = location.origin + "/data/news/" + item.news_id;
 
-    let store = event => {
+    let store = (event) => {
         event.preventDefault();
 
         const config = {
             headers: {
-                "content-type": "multipart/form-data"
-            }
+                "content-type": "multipart/form-data",
+            },
         };
 
         const formData = new FormData();
@@ -58,7 +58,7 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
         setIsLoading(true);
         axios
             .post(BASE_URL, formData, config)
-            .then(function(data) {
+            .then(function (data) {
                 if (data.data == true) {
                     refreshData();
                 } else {
@@ -66,10 +66,10 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
                 }
                 setFile(null);
                 setText("");
-            
+
                 setIsLoading(false);
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 setIsLoading(false);
                 alert(error.message);
             });
@@ -97,7 +97,7 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
                             srcBefore:
                                 location.origin +
                                 "/storage/images/" +
-                                item.file
+                                item.file,
                         }}
                         value={file}
                         setValue={setFile}

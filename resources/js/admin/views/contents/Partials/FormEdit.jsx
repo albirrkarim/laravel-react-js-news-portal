@@ -1,30 +1,7 @@
-import React, { useState, Fragment, useRef } from "react";
-import clsx from "clsx";
+import React, { useState } from "react";
 import axios from "axios";
-import {
-    Box,
-    Card,
-    CardContent,
-    Divider,
-    Grid,
-    Typography,
-    TextField,
-    Button,
-    AppBar,
-    Tabs,
-    Tab,
-    makeStyles
-} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
-import DeleteButton from "../../../components/CardCRUD/DeleteButton";
-import ShareLink from "../../../components/ShareLink";
-
-import {
-    normalize,
-    makeName,
-    str_limit,
-    alphaNumeric
-} from "../../../utils/helper";
 import EditNav from "../../../components/CardCRUD/EditNav";
 import InputText from "../../../components/FormInput/InputText";
 import InputCkEditor from "../../../components/FormInput/InputCkEditor";
@@ -32,25 +9,22 @@ import InputImage from "../../../components/FormInput/InputImage";
 
 import SelectCategory from "./SelectCategory";
 
-export default function FormEdit({ item,setIsEditMode, refreshData }) {
+export default function FormEdit({ item, setIsEditMode, refreshData }) {
     const [name, setName] = useState(item.name);
     const [text, setText] = useState(item.text);
-
     const [category_id, setCategoryId] = useState(item.category_id);
-
     const [isLoading, setIsLoading] = useState(false);
-
     const [file, setFile] = useState();
-
+    
     const BASE_URL = location.origin + "/data/contents/" + item.contents_id;
 
-    let store = event => {
+    let store = (event) => {
         event.preventDefault();
 
         const config = {
             headers: {
-                "content-type": "multipart/form-data"
-            }
+                "content-type": "multipart/form-data",
+            },
         };
 
         const formData = new FormData();
@@ -63,7 +37,7 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
         setIsLoading(true);
         axios
             .post(BASE_URL, formData, config)
-            .then(function(data) {
+            .then(function (data) {
                 if (data.data == true) {
                     refreshData();
                 } else {
@@ -71,10 +45,10 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
                 }
                 setFile(null);
                 setText("");
-            
+
                 setIsLoading(false);
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 setIsLoading(false);
                 alert(error.message);
             });
@@ -96,7 +70,10 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
                         setValue={setText}
                     />
 
-                    <SelectCategory value={category_id} setValue={setCategoryId} />
+                    <SelectCategory
+                        value={category_id}
+                        setValue={setCategoryId}
+                    />
 
                     <InputImage
                         item={{
@@ -104,7 +81,7 @@ export default function FormEdit({ item,setIsEditMode, refreshData }) {
                             srcBefore:
                                 location.origin +
                                 "/storage/images/" +
-                                item.file
+                                item.file,
                         }}
                         value={file}
                         setValue={setFile}

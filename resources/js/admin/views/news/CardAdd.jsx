@@ -11,45 +11,44 @@ import {
     Button,
     CircularProgress,
     makeStyles,
-    FormControl
+    FormControl,
 } from "@material-ui/core";
 import { makeName } from "../../utils/helper";
-
 
 import EditNav from "../../components/CardCRUD/EditNav";
 
 import InputCkEditor from "../../components/FormInput/InputCkEditor";
 import InputImage from "../../components/FormInput/InputImage";
 
-const classes = makeStyles(theme => ({
+const classes = makeStyles((theme) => ({
     root: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     statsItem: {
         alignItems: "center",
-        display: "flex"
+        display: "flex",
     },
     statsIcon: {
-        marginRight: theme.spacing(1)
-    }
+        marginRight: theme.spacing(1),
+    },
 }));
 
-const CardAddClass = ({refreshData }) => {
+const CardAddClass = ({ refreshData }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const [text, setText] = useState("");
     const [file, setFile] = useState();
 
-    let store = event => {
+    let store = (event) => {
         event.preventDefault();
         const url = location.origin + "/data/news";
 
         const config = {
             headers: {
-                "content-type": "multipart/form-data"
-            }
+                "content-type": "multipart/form-data",
+            },
         };
 
         const formData = new FormData();
@@ -64,7 +63,7 @@ const CardAddClass = ({refreshData }) => {
         setIsLoading(true);
         axios
             .post(url, formData, config)
-            .then(function(data) {
+            .then(function (data) {
                 if (data.data == true) {
                     refreshData();
                 } else {
@@ -76,7 +75,7 @@ const CardAddClass = ({refreshData }) => {
 
                 setFile(null);
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 setIsEditMode(false);
                 setIsLoading(false);
                 alert(error.message);

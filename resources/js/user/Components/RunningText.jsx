@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 
-const TextScroller = ({ text }) => {
+const RunningText = ({ text }) => {
     const [key, setKey] = useState(1);
 
     const scrolling = useSpring({
@@ -24,4 +24,4 @@ const TextScroller = ({ text }) => {
     );
 };
 
-export default TextScroller;
+export default RunningText;

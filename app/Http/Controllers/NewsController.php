@@ -90,14 +90,7 @@ class NewsController extends Controller
     public function info($news_id)
     {
         try {
-            $data=News::where("news_id",$news_id)
-            ->select([
-                "news_id",
-                "name",
-                "text",
-                "file"
-            ])
-            ->first();
+            $data=News::where("news_id",$news_id)->first();
 
             if($data!=null){
                 return json_encode(
@@ -121,7 +114,7 @@ class NewsController extends Controller
     public function index()
     {
         return json_encode(
-            News::orderBy("name", "ASC")->paginate(10)
+            News::orderBy("created_at", "DESC")->paginate(10)
         );
     }
 
