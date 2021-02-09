@@ -21,7 +21,7 @@ export default ({ text, children }) => {
                     {open ? <FiXCircle /> : <FiHelpCircle />}
                 </IconButton>
 
-                {open && <p className="mb-2">{text}</p>}
+                {open && <div className="mb-2">{text}</div>}
             </Fragment>
         </div>
     );

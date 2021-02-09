@@ -6,6 +6,8 @@ import Card from "./Card";
 import axios from "axios";
 import CardAdd from "./CardAdd";
 
+import Search from "../../components/Search";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.dark,
@@ -28,26 +30,44 @@ export default function News() {
     const [lastPage, setLastPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
 
+    const [searchText,setSearchText] = useState("");
+
     useEffect(() => {
         refreshData();
-    }, [currentPage, mode]);
+    }, [currentPage, mode,searchText]);
 
     const refreshData = () => {
-        setIsLoading(true);
-        axios
-            .get(`${location.origin}/data/news?page=${currentPage}`)
-            .then((resp) => {
-                let { data, last_page, current_page } = resp.data;
+        if(searchText.length>2){
+            setIsLoading(true);
+            axios
+                .get(`${location.origin}/data/search/news/${searchText}`)
+                .then((resp) => {
+                    setItems(resp.data);
+                
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    setIsLoading(false);
+                    alert(error.message);
+                });
+        }else{
+            setIsLoading(true);
+            axios
+                .get(`${location.origin}/data/news?page=${currentPage}`)
+                .then((resp) => {
+                    let { data, last_page, current_page } = resp.data;
 
-                setItems(data);
-                setLastPage(last_page);
-                setCurrentPage(current_page);
-                setIsLoading(false);
-            })
-            .catch(function (error) {
-                setIsLoading(false);
-                alert(error.message);
-            });
+                    setItems(data);
+                    setLastPage(last_page);
+                    setCurrentPage(current_page);
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    setIsLoading(false);
+                    alert(error.message);
+                });
+
+        }
     };
 
     const handleChange = (e, value) => {
@@ -67,10 +87,13 @@ export default function News() {
 
                 <Box mt={3}>
                     <Grid container spacing={3}>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                             <CardAdd refreshData={refreshData} />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
+                            <Search setSearch={setSearchText} isLoading={isLoading} setIsLoading={setIsLoading} />
+                        </Grid>
+                        <Grid item xs={4}>
                             <p className="m-0 font-weight-bold">Panduan:</p>
                             <p className="m-0">
                                 Klik pada gambar untuk mengedit data

@@ -20,6 +20,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="root"></div>
+    @auth
+        <div id="root"></div>
+    @endauth
+    
+    @guest
+        <h1 class="text-center m-5">Telkom Digital Solution Care Center</h1>    
+    @endguest
+    @yield('content')
 </body>
 </html>

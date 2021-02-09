@@ -21,11 +21,11 @@ mix.js('resources/js/user/index.jsx', 'public/js/app.js')
 	.version();
 
 
-// mix.js('resources/js/admin/index.jsx', 'public/js/admin.js')
-// 	.react()
-// 	.options({
-// 	    postCss: [
-// 	      require('autoprefixer'),
-// 	    ],
-// 	 })
-// 	.version();
+mix.js('resources/js/admin/index.jsx', 'public/js/admin.js')
+	.react()
+	.options({
+	    postCss: [
+	      require('autoprefixer'),
+	    ],
+	 })
+	.version();

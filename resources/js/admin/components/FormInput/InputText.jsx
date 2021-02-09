@@ -16,31 +16,57 @@ import {
     makeStyles
 } from "@material-ui/core";
 import Caption from "../Caption";
+import {validURL,makeURL} from "../../utils/helper";
 
-export default function InputText({ item, value, setValue }) {
-    let { name, placeholder, isRequired, type } = item;
+export default function InputText({ item, value, setValue}) {
+    let { name, label, placeholder, isRequired, type , tutorial } = item;
 
     let isSosmed = name == "email" || name == "contact";
     let isYoutube = type == "url_youtube";
 
     let isFocused = isSosmed || isYoutube;
 
+    if(!label){
+        label=name;
+    }
+
+    function getTutorial(){
+
+        if(tutorial!=null){
+            return tutorial;
+        }else{
+            if(isSosmed){
+                return "Bagian ini bisa di isi link instagram / github / facebook / nomor telepon";
+            }
+
+            if(isYoutube){
+                return "Bagian ini bisa di isi link youtube";
+            }
+        }
+
+        return"";
+    }
+
     if (isFocused) {
         return (
             <Caption
                 text={
-                    isSosmed
-                        ? "Bagian ini bisa di isi link instagram / github / facebook / nomor telepon"
-                        : "Bagian ini bisa di isi link youtube"
+                    getTutorial()
                 }
             >
                 <TextField
-                    label={name}
+                    label={label}
                     required={isRequired == false ? false : true}
                     fullWidth
                     margin="dense"
                     onChange={e => {
-                        setValue(e.target.value);
+                        let a = e.target.value;
+
+                        if(validURL(a)){
+                            a=makeURL(a);
+                        }
+
+                        setValue(a);
                     }}
                     value={value}
                     name={name}
@@ -52,18 +78,33 @@ export default function InputText({ item, value, setValue }) {
     }
 
     return (
-        <TextField
-            label={name}
-            required={isRequired == false ? false : true}
-            fullWidth
-            margin="dense"
-            onChange={e => {
-                setValue(e.target.value);
-            }}
-            value={value ? value : ""}
-            name={name}
-            placeholder={placeholder}
-            variant="outlined"
-        />
+        <Caption
+            text={
+                getTutorial()
+            }
+            >
+
+            <TextField
+                label={label}
+                required={isRequired == false ? false : true}
+                fullWidth
+                margin="dense"
+                onChange={e => {
+                    let a = e.target.value;
+
+                    if(validURL(a)){
+                        a=makeURL(a);
+                    }
+
+                    setValue(a);
+                }}
+                value={value ? value : ""}
+                name={name}
+                placeholder={placeholder}
+                variant="outlined"
+            />
+
+        </Caption>
+       
     );
 }

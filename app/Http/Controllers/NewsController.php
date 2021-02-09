@@ -87,6 +87,19 @@ class NewsController extends Controller
         }        
     }
 
+    public function search($text = "")
+    {
+        if (strlen($text) < 3) {
+            return json_encode([]);
+        }
+        $contents = News::where('name', 'like', '%' . $text . '%')
+                    ->orWhere('text', 'like', '%' . $text . '%')
+                    ->get();
+
+        return json_encode($contents);
+    }
+
+
     public function info($news_id)
     {
         try {

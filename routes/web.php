@@ -42,9 +42,11 @@ Route::middleware(["auth"])->group( function () {
 
       Route::resource('contents',     'ContentsController');
       Route::post("contents/{contents_id}",    'ContentsController@update');
+      Route::get("search/contents/{text}",    'ContentsController@search');
 
       Route::resource('news',     'NewsController');
       Route::post("news/{news_id}",    'NewsController@update');
+      Route::get("search/news/{text}",    'NewsController@search');
 
       Route::resource('categories',     'CategoriesController');
       Route::post("categories/{category_id}",    'CategoriesController@update');

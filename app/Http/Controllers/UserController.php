@@ -69,11 +69,17 @@ class UserController extends Controller
     public function update(Request $request,$id)
     {
         try {
-            User::where("id",$id)->update([
+
+            $arr  =[
                 "name"          => $request["name"],
                 "email"         => $request["email"],
-                "password"      => Hash::make($request["password"])
-            ]);
+            ];
+
+            if($request["password"]!="") {
+                $arr["password"] = Hash::make($request["password"]);
+            }
+
+            User::where("id",$id)->update($arr);
 
             return "true";
         } catch (QueryException $ex) {

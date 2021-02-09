@@ -46,22 +46,45 @@ class ContentsController extends Controller
     }
 
 
-    function uploadImageHome($file_image)
+    function uploadFile($file)
     {
 
-        if ($file_image != null) {
-            $hash_name  = md5($file_image->getClientOriginalName() . time());
-            $extension  = $file_image->extension();
+        if ($file != null) {
 
-            if ($extension != 'png') {
-                $extension = 'jpg';
-            }
+            $hash_name  = md5($file->getClientOriginalName() . time());
+            $extension  = $file->extension();
             $name       = $hash_name . "." . $extension;
 
-            $path = $file_image->getRealPath();
+            $arrVideo = ["mp4", "mkv", "m4v", "mov"];
+            $arrAudio = ["mp3", "m4a", "flac", "wav"];
+            $arrImage = ["png", "jpg", "jpeg","webp"];
 
-            $this->uploadThumbnail($path, $name, $extension);
-            $this->uploadImage($path, $name, $extension);
+            $type = "img";
+
+            if (in_array($extension, $arrImage)) {
+                if ($extension != 'png') {
+                    $extension = 'jpg';
+                }
+                $name = $hash_name . "." . $extension;
+
+                $path = $file->getRealPath();
+
+                $this->uploadThumbnail($path, $name, $extension);
+                $this->uploadImage($path, $name, $extension);
+
+
+            } else if (in_array($extension, $arrVideo)) {
+                $type = "video";
+            } else if (in_array($extension, $arrAudio)) {
+                $type = "audio";
+            } else {
+                $type = "document";
+            }
+
+            if ($type != "img") {
+                $path = "storage/images";
+                $file->move($path, $name);
+            }
 
             return $name;
         }
@@ -85,6 +108,18 @@ class ContentsController extends Controller
             $this->deleteFile('app/public/images/' . $file_name);
             $this->deleteFile('app/public/images_thumbnail/' . $file_name);
         }
+    }
+
+    public function search($text = "")
+    {
+        if (strlen($text) < 3) {
+            return json_encode([]);
+        }
+        $contents = Contents::where('name', 'like', '%' . $text . '%')
+                    ->orWhere('text', 'like', '%' . $text . '%')
+                    ->get();
+
+        return json_encode($contents);
     }
 
     public function info($contents_id)
@@ -134,8 +169,8 @@ class ContentsController extends Controller
                 "category_id" => $request['category_id'],
             ];
 
-            $image = $request->file("file");
-            $arr['file'] = $this->uploadImageHome($image);
+            $file = $request->file("file");
+            $arr['file'] = $this->uploadFile($file);
 
             Contents::create($arr);
 
@@ -167,11 +202,11 @@ class ContentsController extends Controller
                 "category_id" => $request['category_id'],
             ];
 
-            $image = $request->file("file");
+            $file = $request->file("file");
 
-            if ($image != null) {
+            if ($file != null) {
                 $this->deleteFileComplete($contents_id);
-                $arr['file'] = $this->uploadImageHome($image);
+                $arr['file'] = $this->uploadFile($file);
             }
 
             Contents::where("contents_id", $contents_id)->update($arr);

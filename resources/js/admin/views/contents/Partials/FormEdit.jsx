@@ -64,8 +64,23 @@ export default function FormEdit({ item, setIsEditMode, refreshData }) {
                         setValue={setName}
                     />
 
-                    <InputCkEditor
-                        item={{ name: "description" }}
+                    <InputText
+                        item={{ 
+                            name: "description",
+                            label : "Link halaman cari nomor / halaman lain ",
+                            tutorial : (
+                                <p>
+                                    Bagian ini bisa di ini link website / link ke halaman lain
+                                    <br/>
+                                    Bisa di isi dengan link nomor kontak seperti
+                                    <br/>
+                                    <br/>
+                                    <span className="font-weight-bold"> 
+                                        10.194.58.254/tudinan/nomor.php
+                                    </span>
+                                </p>
+                            )
+                        }}
                         value={text}
                         setValue={setText}
                     />
