@@ -7,6 +7,9 @@ import axios from "axios";
 import CardAdd from "./CardAdd";
 
 import Search from "../../components/Search";
+import SpinnerCenter from "../../components/SpinnerCenter";
+import Placeholder from "../../components/Placeholder";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -133,11 +136,11 @@ export default function News() {
                                 </Box>
                             </Fragment>
                         ) : (
-                            "Data kosong, silahkan tambah data ..."
+                            <Placeholder/>
                         )}
                     </Fragment>
                 ) : (
-                    "loading ..."
+                    <SpinnerCenter />
                 )}
             </Container>
         </Page>

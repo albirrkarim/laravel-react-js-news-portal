@@ -19,7 +19,7 @@ import Caption from "../Caption";
 import {validURL,makeURL} from "../../utils/helper";
 
 export default function InputText({ item, value, setValue}) {
-    let { name, label, placeholder, isRequired, type , tutorial } = item;
+    let { name, label, placeholder, isRequired=false, type , tutorial } = item;
 
     let isSosmed = name == "email" || name == "contact";
     let isYoutube = type == "url_youtube";

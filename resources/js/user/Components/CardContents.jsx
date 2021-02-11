@@ -29,10 +29,61 @@ import { FiLink,FiFileText } from "react-icons/fi";
 export default function CardContents({ item, setNewsId }) {
     const classes = useStyles();
 
+
+    const getName = (item)=>{
+
+        return (
+            <Typography
+                variant="body1"
+                component="p"
+            >
+                {str_limit(item.name, 80)}
+            </Typography>
+        )
+    }
+
+    const getLink = (item)=>{
+
+
+        if(item.text){
+        
+            if(validURL(item.text)){
+   
+                return (
+                    <a href={item.text} target="_blank" >
+                        {getName(item)}
+                    </a>
+
+                )
+            }else if (item.text!=null&&item.text!="null"){
+  
+                return (
+                    <Link to={"/dashboard/"+item.contents_id} >
+                        {getName(item)}
+                    </Link>
+                )
+            }
+
+
+        }
+
+
+        if (item.file && isDocument(item.file)){
+            return (
+                 <a href={location.origin+"/storage/images/"+item.file} target="_blank" >
+                    {getName(item)}
+                </a>
+            )
+        }
+
+        
+        return ""
+    }
+
     return (
         <Grid item xs={3}>
             <Card className={classes.root + " mb-3 card-news shadow"}>
-                <CardActionArea>
+              
                     {
                         item.file&&isImageFile(item.file) &&
                         <CardMedia
@@ -49,45 +100,7 @@ export default function CardContents({ item, setNewsId }) {
                     <CardContent>
                         <Grid container >
                             <Grid item xs={6} >
-                                {
-                                   (item.text && validURL(item.text)) && (
-                                    <a href={item.text} target="_blank" >
-                                        <Typography
-                                            variant="body1"
-                                            component="p"
-                                        >
-                                            {str_limit(item.name, 80)}
-                                        </Typography>
-                                    </a>
-                                    )
-                                }
-
-                                {
-                                   (item.text && !validURL(item.text)) && (
-                                    <Link to={"/dashboard/"+item.contents_id} >
-                                        <Typography
-                                            variant="body1"
-                                            component="p"
-                                        >
-                                            {str_limit(item.name, 80)}
-                                        </Typography>
-                                    </Link>
-                                    )
-                                }
-                                
-
-                                {
-                                    (item.file && isDocument(item.file)) && (
-                                        <a href={location.origin+"/storage/images/"+item.file} target="_blank" >
-                                            <Typography
-                                                variant="body1"
-                                                component="p"
-                                            >
-                                                {str_limit(item.name, 80)}
-                                            </Typography>
-                                        </a>
-                                    )
-                                }
+                                {getLink(item)}
 
                             </Grid>
                             <Grid item xs={6} container justify="flex-end">
@@ -116,7 +129,7 @@ export default function CardContents({ item, setNewsId }) {
 
                         
                     </CardContent>
-                </CardActionArea>
+                
             </Card>
         </Grid>
     );

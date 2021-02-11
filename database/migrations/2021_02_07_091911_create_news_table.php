@@ -17,7 +17,7 @@ class CreateNewsTable extends Migration
             $table->increments("news_id");
             $table->text('name');
             $table->string('file',40)->nullable();
-            $table->text('text');
+            $table->text('text')->nullable();
             $table->timestamps();
         });
     }

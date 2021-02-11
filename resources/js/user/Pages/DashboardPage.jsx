@@ -55,13 +55,17 @@ export default function DashboardPage() {
                             
 
                             <h4 className="mb-3">{contents.name}</h4>
-                            <p
-                                style={{ opacity: "0.85" }}
-                                className="text-justify"
-                                dangerouslySetInnerHTML={{
-                                    __html: contents.text,
-                                }}
-                            ></p>
+
+                            {
+                                contents.text && 
+                                <p
+                                    style={{ opacity: "0.85" }}
+                                    className="text-justify"
+                                    dangerouslySetInnerHTML={{
+                                        __html: contents.text,
+                                    }}
+                                ></p>
+                            }
 
                             <p className="text-center text-muted" >
                                 {moment(

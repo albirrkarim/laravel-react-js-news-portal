@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 09, 2021 at 05:20 PM
+-- Generation Time: Feb 11, 2021 at 10:06 AM
 -- Server version: 8.0.21-0ubuntu0.20.04.4
 -- PHP Version: 7.4.3
 
@@ -44,7 +44,7 @@ CREATE TABLE `categories` (
 CREATE TABLE `contents` (
   `contents_id` int UNSIGNED NOT NULL,
   `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci,
   `file` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -84,13 +84,13 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(8, '2014_10_12_000000_create_users_table', 1),
-(9, '2014_10_12_100000_create_password_resets_table', 1),
-(10, '2019_08_19_000000_create_failed_jobs_table', 1),
-(11, '2020_10_30_102234_create_settings_table', 1),
-(12, '2021_02_07_091911_create_news_table', 1),
-(13, '2021_02_07_092431_create_contents_table', 1),
-(14, '2021_02_07_093012_create_categories_table', 1);
+(29, '2014_10_12_000000_create_users_table', 1),
+(30, '2014_10_12_100000_create_password_resets_table', 1),
+(31, '2019_08_19_000000_create_failed_jobs_table', 1),
+(32, '2020_10_30_102234_create_settings_table', 1),
+(33, '2021_02_07_091911_create_news_table', 1),
+(34, '2021_02_07_092431_create_contents_table', 1),
+(35, '2021_02_07_093012_create_categories_table', 1);
 
 -- --------------------------------------------------------
 
@@ -102,7 +102,7 @@ CREATE TABLE `news` (
   `news_id` int UNSIGNED NOT NULL,
   `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `file` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -233,7 +233,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `news`

@@ -85,61 +85,78 @@ export default function NewsPage (){
 			{
 
 				isLoading ?  <SpinnerCenter/> : (
-					<Grid container spacing={7} className="mt-2 mb-2 w-100">
-						<Grid item lg={3} md={3} sm={12} xs={12} className="scrollable">
-							{
-								newsLeft.map((item,idx)=>(
-									<CardNews key={idx} item={newsList[item]}  />
-								))	
-							}
+					<Fragment >
 
-						</Grid>
+						{
+							newsList.length==0 ? (
+								<p className="text-center">Belum ada data</p>
+							):(
 
-						<Grid item lg={6} md={6} sm={12} xs={12} className="scrollable">
-							{
-								(news && !isLoadingDetail) ? (
-									<Fragment>
-										<h4 className="mb-3">{news.name}</h4>
+							<Grid container spacing={7} className="mt-2 mb-2 w-100">
+								<Grid item lg={3} md={3} sm={12} xs={12} className="scrollable">
+									{
+										newsLeft.map((item,idx)=>(
+											<CardNews key={idx} item={newsList[item]}  />
+										))	
+									}
 
-										<p
-					                        style={{ opacity: "0.85" }}
-					                        className="text-justify"
-					                        dangerouslySetInnerHTML={{
-					                            __html: news.text,
-					                        }}
-					                    ></p>
+								</Grid>
 
-					                    <p className="text-center text-muted" >
-			                                {moment(
-			                                    news.created_at
-			                                ).format(
-			                                    'DD MMMM YYYY, h:mm'
-			                                )}
-			                            </p>
-					                
-                                        {
-                                        	news.file &&
+								<Grid item lg={6} md={6} sm={12} xs={12} className="scrollable">
+									{
+										(news && !isLoadingDetail) ? (
+											<Fragment>
+												<h4 className="mb-3">{news.name}</h4>
 
-                                        	<div className="p-3">
-						                    	<ImageViewer src={location.origin+"/storage/images/"+news.file} />
-						                    </div> 
-                                        }
-					                    
-									</Fragment>
-								):(
-									<SpinnerCenter/>
-								)
-							}
-						</Grid>
+												{
+													news.text && 
+													<p
+								                        style={{ opacity: "0.85" }}
+								                        className="text-justify"
+								                        dangerouslySetInnerHTML={{
+								                            __html: news.text,
+								                        }}
+								                    ></p>
+												}
+												
 
-						<Grid item lg={3} md={3} sm={12} xs={12} className="scrollable">
-							{
-								newsRight.map((item,idx)=>(
-									<CardNews key={idx} item={newsList[item]}  />
-								))	 
-							}
-						</Grid>
-					</Grid>
+							                    <p className="text-center text-muted" >
+					                                {moment(
+					                                    news.created_at
+					                                ).format(
+					                                    'DD MMMM YYYY, h:mm'
+					                                )}
+					                            </p>
+							                
+		                                        {
+		                                        	news.file &&
+
+		                                        	<div className="p-3">
+								                    	<ImageViewer src={location.origin+"/storage/images/"+news.file} />
+								                    </div> 
+		                                        }
+							                    
+											</Fragment>
+										):(
+											<SpinnerCenter/>
+										)
+									}
+								</Grid>
+
+								<Grid item lg={3} md={3} sm={12} xs={12} className="scrollable">
+									{
+										newsRight.map((item,idx)=>(
+											<CardNews key={idx} item={newsList[item]}  />
+										))	 
+									}
+								</Grid>
+							</Grid>
+
+
+							)
+						}
+
+					</Fragment>
 				)
 			}
 			

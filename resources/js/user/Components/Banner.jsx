@@ -4,7 +4,7 @@ import { Grid } from "@material-ui/core";
 import axios from "axios";
 
 export default function Banner() {
-    const [file, setFile] = useState("#");
+    const [file, setFile] = useState();
 
     useEffect(() => {
         axios.get(location.origin + "/api/getsetting/banner").then((resp) => {
@@ -23,7 +23,7 @@ export default function Banner() {
                 container
                 justify="center"
             >
-                {file != "#" && (
+                {file && (
                     <img
                         className="img-fluid"
                         style={{ maxHeight: "100px" }}

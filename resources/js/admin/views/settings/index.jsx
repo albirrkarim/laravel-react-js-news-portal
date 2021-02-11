@@ -7,6 +7,10 @@ import Card from "./Card";
 import axios from "axios";
 import CardAdd from "./CardAdd";
 
+
+import SpinnerCenter from "../../components/SpinnerCenter";
+import Placeholder from "../../components/Placeholder";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.dark,
@@ -100,11 +104,11 @@ export default function Settings() {
                                 </Box>
                             </Fragment>
                         ) : (
-                            "Data kosong, silahkan tambah data ..."
+                            <Placeholder />
                         )}
                     </Fragment>
                 ) : (
-                    "loading ..."
+                    <SpinnerCenter/>
                 )}
             </Container>
         </Page>
