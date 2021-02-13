@@ -19,20 +19,12 @@ class HomeController extends Controller
 
         $news = News::where('name', 'like', '%' . $text . '%')
                     ->orWhere('text', 'like', '%' . $text . '%')
-                    ->select([
-                        'news_id',
-                        'name',
-                        'text',
-                    ])
+                    
                     ->get();
 
         $contents = Contents::where('name', 'like', '%' . $text . '%')
                     ->orWhere('text', 'like', '%' . $text . '%')
-                    ->select([
-                        'contents_id',
-                        'name',
-                        'text',
-                    ])
+                   
                     ->get();
 
         return json_encode([
