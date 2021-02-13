@@ -29,59 +29,68 @@ export default function ResultItem({ item, handleClose }) {
 
     let linkCollection = makeLink(mode, id);
 
+
+    const getName = (item)=>{
+        return (
+            <Typography
+                variant="h3"
+                component="h3"
+            >
+                {str_limit(item.name, 80)}
+            </Typography>
+        )
+    }
+
+
+    const getLink=(item,mode)=>{
+
+
+        if(mode=='news'){
+            return(
+                    <Link to={linkCollection} onClick={handleClose}>
+                        {getName(item)}
+                    </Link>
+            )
+        }
+
+        if(item.text && validURL(item.text)){
+
+            return (
+                <a href={item.text} target="_blank" >
+                    {getName(item)}
+                </a>
+            )
+        }
+         
+
+        if(item.text && !validURL(item.text)){
+
+            return (
+                <Link to={linkCollection} onClick={handleClose}>
+                    {getName(item)}
+                </Link>
+
+            )
+        }     
+
+        if(item.file && isDocument(item.file)) {
+            return (
+                <a href={location.origin+"/storage/images/"+item.file} target="_blank" >
+                    {getName(item)}
+                </a>
+            )
+        }
+
+        return "";
+    }
+
+
     return (
         <Grid container className="shadow mb-5 p-3 rounded card-room">
             <Grid item lg={10} md={10} sm={8} xs={8}>
-                {
-                    mode=='news' &&
-                    <Link to={linkCollection} onClick={handleClose}>
-                        <Typography variant="h5" gutterBottom>
-                            {name}
-                        </Typography>
-                    </Link>
-                }
+                <h5>#{mode}</h5>
 
-                {
-                   (item.text && validURL(item.text)) && (
-                    <a href={item.text} target="_blank" >
-                        <Typography
-                            variant="body1"
-                            component="p"
-                        >
-                            {str_limit(item.name, 80)}
-                        </Typography>
-                    </a>
-                    )
-                }
-
-                
-                {
-                   (item.text && !validURL(item.text)) && (
-                    <Link to={linkCollection} onClick={handleClose}>
-                        <Typography
-                            variant="body1"
-                            component="p"
-                        >
-                            {str_limit(item.name, 80)}
-                        </Typography>
-                    </Link>
-                    )
-                }
-                                
-                
-
-                {
-                    (item.file && isDocument(item.file)) && (
-                        <a href={location.origin+"/storage/images/"+item.file} target="_blank" >
-                            <Typography
-                                variant="body1"
-                                component="p"
-                            >
-                                {str_limit(item.name, 80)}
-                            </Typography>
-                        </a>
-                    )
-                }
+                {getLink(item,mode)}
 
                 {text && (
                     <p

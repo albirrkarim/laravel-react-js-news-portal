@@ -266,7 +266,7 @@ const SettingClass = ({ setting, refreshData }) => {
                                     className="w-100 rounded"
                                     src={
                                         location.origin +
-                                        "/storage/logo/" +
+                                        "/storage/files/" +
                                         setting.file
                                     }
                                     alt={key}
@@ -278,7 +278,7 @@ const SettingClass = ({ setting, refreshData }) => {
                                     controls
                                     src={
                                         location.origin +
-                                        "/storage/video/" +
+                                        "/storage/files/" +
                                         setting.file
                                     }
                                 ></video>

@@ -78,7 +78,7 @@ export default function DashboardPage() {
                             {
                                 contents.file &&
                                 <div className="p-3">
-                                    <ImageViewer src={location.origin+"/storage/images/"+contents.file} />
+                                    <ImageViewer src={location.origin+"/storage/files/"+contents.file} />
                                 </div>
                             }
                             

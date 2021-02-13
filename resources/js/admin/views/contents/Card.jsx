@@ -97,7 +97,7 @@ const CardClass = ({ item, refreshData }) => {
                                     style={{ maxHeight: 300 + "px" }}
                                     src={
                                         location.origin +
-                                        "/storage/images/" +
+                                        "/storage/files/" +
                                         item.file
                                     }
                                     alt={item.name}
@@ -132,7 +132,7 @@ const CardClass = ({ item, refreshData }) => {
                                 
                                 {
                                     (item.file && isDocument(item.file)) && (
-                                        <a href={location.origin+"/storage/images/"+item.file} target="_blank" >
+                                        <a href={location.origin+"/storage/files/"+item.file} target="_blank" >
                                             <IconButton className="pointer" color="primary" aria-label="delete">
                                               <FiFileText />
                                             </IconButton>

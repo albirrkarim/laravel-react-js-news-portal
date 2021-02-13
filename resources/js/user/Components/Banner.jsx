@@ -27,7 +27,7 @@ export default function Banner() {
                     <img
                         className="img-fluid"
                         style={{ maxHeight: "100px" }}
-                        src={location.origin + "/storage/logo/" + file}
+                        src={location.origin + "/storage/files/" + file}
                     />
                 )}
             </Grid>

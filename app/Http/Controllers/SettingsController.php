@@ -5,52 +5,45 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
-use InterventionImage;
+// use InterventionImage;
 use Illuminate\Database\QueryException;
 
 class SettingsController extends Controller
 {
 
-    function uploadImage($originPath,$name){
-        $this->deleteFile('app/public/image/'.$name);
-        InterventionImage::make($originPath)
-                    ->encode('jpg', 90)
-                    ->save('storage/image/'.$name);
-    }
+    // function uploadImage($originPath,$name){
+    //     $this->deleteFile('app/public/image/'.$name);
+    //     InterventionImage::make($originPath)
+    //                 ->encode('jpg', 90)
+    //                 ->save('storage/image/'.$name);
+    // }
 
-    function uploadThumbnail($originPath,$name){
-        $this->deleteFile('app/public/thumbnail/'.$name);
+    // function uploadThumbnail($originPath,$name){
+    //     $this->deleteFile('app/public/thumbnail/'.$name);
 
-        InterventionImage::make($originPath)
-                    ->encode('jpg', 75)
-                    ->resize(600,null, function ($constraint){$constraint->aspectRatio();})
-                    ->save('storage/thumbnail/'.$name);
-    }
+    //     InterventionImage::make($originPath)
+    //                 ->encode('jpg', 75)
+    //                 ->resize(600,null, function ($constraint){$constraint->aspectRatio();})
+    //                 ->save('storage/thumbnail/'.$name);
+    // }
 
-    function uploadVideo($file){
+    // function processImage($file){
+    //     $hash_name  = md5($file->getClientOriginalName() . time());
+    //     $name       = $hash_name . ".".$file->getClientOriginalExtension();
 
-        $hash_name  = md5($file->getClientOriginalName() . time());
-        $name       = $hash_name . "." . $file->getClientOriginalExtension();
+    //     $path = "storage/images";
+    //     $file->move($path, $name);
 
-        $this->deleteFile('app/public/video/'.$name);
-
-        $file->move("storage/video",$name);
-
-        return $name;
-    }
-
-    function uploadLogo($file_img,$name){
-        $this->deleteFile('app/public/logo/'.$name);
-
-        $file_img->move("storage/logo",$name);
-    }
+    //     return $name;
+    // }
 
 
-    function processImage($file){
+    function processFile($file){
         $hash_name  = md5($file->getClientOriginalName() . time());
         $name       = $hash_name . ".".$file->getClientOriginalExtension();
 
-        $this->uploadLogo($file,$name);
+        $path = "storage/files";
+        $file->move($path, $name);
 
         return $name;
     }
@@ -60,11 +53,7 @@ class SettingsController extends Controller
         $old_name = $old_data['file'];
 
         if($old_name!=""){
-            if($old_data['role']=='image'){
-                $this->deleteFile('app/public/logo/' . $old_name);
-            }else{
-                $this->deleteFile('app/public/video/' . $old_name);
-            }
+            $this->deleteFile('app/public/files/' . $old_name);
         }
     }
 
@@ -126,11 +115,7 @@ class SettingsController extends Controller
             $file   = $request->file('file');
             
             if($file!=null){
-                if($role=="image"){
-                    $arr["file"] = $this->processImage($file);
-                }else if ($role == 'video'){
-                    $arr["file"] = $this->uploadVideo($file);
-                }
+                $arr["file"] = $this->processFile($file);
             }
 
 
@@ -178,14 +163,8 @@ class SettingsController extends Controller
             if($file!=null){
                 $data =  Setting::where('id', $id)->first();
 
-                $this->processDeleteFile($data);
-
-                if($role=="image"){    
-                    $arr["file"] = $this->processImage($file);
-                }
-                else if($role=="video"){            
-                    $arr["file"] =  $this->uploadVideo($file);
-                }
+                $this->processDeleteFile($data); 
+                $arr["file"] = $this->processFile($file);
             }
 
             Setting::where("id", $id)->update($arr);

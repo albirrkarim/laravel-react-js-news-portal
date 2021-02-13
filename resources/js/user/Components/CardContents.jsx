@@ -70,7 +70,7 @@ export default function CardContents({ item, setNewsId }) {
 
         if (item.file && isDocument(item.file)){
             return (
-                 <a href={location.origin+"/storage/images/"+item.file} target="_blank" >
+                <a href={location.origin+"/storage/files/"+item.file} target="_blank" >
                     {getName(item)}
                 </a>
             )
@@ -90,7 +90,7 @@ export default function CardContents({ item, setNewsId }) {
                             className={classes.media}
                             image={
                                 location.origin +
-                                "/storage/images_thumbnail/" +
+                                "/storage/files/" +
                                 item.file
                             }
                             title={item.name}
@@ -116,7 +116,7 @@ export default function CardContents({ item, setNewsId }) {
                                 
                                 {
                                     (item.file && isDocument(item.file)) && (
-                                        <a href={location.origin+"/storage/images/"+item.file} target="_blank" >
+                                        <a href={location.origin+"/storage/files/"+item.file} target="_blank" >
                                             <IconButton className="pointer" color="primary" aria-label="Document">
                                               <FiFileText />
                                             </IconButton>

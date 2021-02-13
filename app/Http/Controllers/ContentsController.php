@@ -4,46 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Models\Contents;
 use Illuminate\Http\Request;
-use InterventionImage;
+// use InterventionImage;
 use Illuminate\Database\QueryException;
 
 class ContentsController extends Controller
 {
-    function uploadImage($originPath, $name, $extension = 'jpg')
-    {
-        $this->deleteFile('app/public/images/' . $name);
+    // function uploadImage($originPath, $name, $extension = 'jpg')
+    // {
+    //     $this->deleteFile('app/public/images/' . $name);
 
-        $width = InterventionImage::make($originPath)->width();
-        $fixed_width = 1920;
+    //     $width = InterventionImage::make($originPath)->width();
+    //     $fixed_width = 1920;
 
-        $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
+    //     $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
 
-        if ($width > $fixed_width) {
-            $imgTamp->resize($fixed_width, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-        }
+    //     if ($width > $fixed_width) {
+    //         $imgTamp->resize($fixed_width, null, function ($constraint) {
+    //             $constraint->aspectRatio();
+    //         });
+    //     }
 
-        $imgTamp->save('storage/images/' . $name);
-    }
+    //     $imgTamp->save('storage/files/' . $name);
+    // }
 
-    function uploadThumbnail($originPath, $name, $extension = 'jpg')
-    {
-        $this->deleteFile('app/public/images_thumbnail/' . $name);
+    // function uploadThumbnail($originPath, $name, $extension = 'jpg')
+    // {
+    //     $this->deleteFile('app/public/images_thumbnail/' . $name);
 
-        $width = InterventionImage::make($originPath)->width();
-        $fixed_width = 800;
+    //     $width = InterventionImage::make($originPath)->width();
+    //     $fixed_width = 800;
 
-        $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
+    //     $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
 
-        if ($width > $fixed_width) {
-            $imgTamp->resize($fixed_width, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-        }
+    //     if ($width > $fixed_width) {
+    //         $imgTamp->resize($fixed_width, null, function ($constraint) {
+    //             $constraint->aspectRatio();
+    //         });
+    //     }
 
-        $imgTamp->save('storage/images_thumbnail/' . $name);
-    }
+    //     $imgTamp->save('storage/files_thumbnail/' . $name);
+    // }
 
 
     function uploadFile($file)
@@ -67,11 +67,7 @@ class ContentsController extends Controller
                 }
                 $name = $hash_name . "." . $extension;
 
-                $path = $file->getRealPath();
-
-                $this->uploadThumbnail($path, $name, $extension);
-                $this->uploadImage($path, $name, $extension);
-
+                // $path = $file->getRealPath();
 
             } else if (in_array($extension, $arrVideo)) {
                 $type = "video";
@@ -81,10 +77,8 @@ class ContentsController extends Controller
                 $type = "document";
             }
 
-            if ($type != "img") {
-                $path = "storage/images";
-                $file->move($path, $name);
-            }
+            $path = "storage/files";
+            $file->move($path, $name);
 
             return $name;
         }
@@ -105,8 +99,8 @@ class ContentsController extends Controller
         $file_name = $file['file'];
 
         if ($file_name != null && $file_name != "") {
-            $this->deleteFile('app/public/images/' . $file_name);
-            $this->deleteFile('app/public/images_thumbnail/' . $file_name);
+            $this->deleteFile('app/public/files/' . $file_name);
+          
         }
     }
 

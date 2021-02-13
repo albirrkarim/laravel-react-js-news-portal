@@ -93,7 +93,7 @@ const CardClass = ({ item, refreshData }) => {
                                     style={{ maxHeight: 300 + "px" }}
                                     src={
                                         location.origin +
-                                        "/storage/images/" +
+                                        "/storage/files/" +
                                         item.file
                                     }
                                     alt={item.name}

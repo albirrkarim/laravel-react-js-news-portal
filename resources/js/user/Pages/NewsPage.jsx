@@ -132,7 +132,7 @@ export default function NewsPage (){
 		                                        	news.file &&
 
 		                                        	<div className="p-3">
-								                    	<ImageViewer src={location.origin+"/storage/images/"+news.file} />
+								                    	<ImageViewer src={location.origin+"/storage/files/"+news.file} />
 								                    </div> 
 		                                        }
 							                    

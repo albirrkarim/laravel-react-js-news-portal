@@ -27,19 +27,6 @@ export default function CardNews({ item, setNewsId }) {
         <Link to={"/news/" + item.news_id}>
             <Card className={classes.root + " mb-3 card-news shadow"}>
                 <CardActionArea>
-                    {
-                        item.file &&
-                        <CardMedia
-                            className={classes.media}
-                            image={
-                                location.origin +
-                                "/storage/images_thumbnail/" +
-                                item.file
-                            }
-                            title={item.name}
-                        />
-                    }
-                    
                     <CardContent>
                         <Typography gutterBottom variant="body1" component="p">
                             {str_limit(item.name, 80)}

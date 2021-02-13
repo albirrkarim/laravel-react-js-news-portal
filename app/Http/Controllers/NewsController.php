@@ -4,64 +4,67 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
+// use Illuminate\Database\QueryException;
 use InterventionImage;
 
 class NewsController extends Controller
 {
-    function uploadImage($originPath, $name, $extension='jpg')
-    {
-        $this->deleteFile('app/public/images/' . $name);
+    // function uploadImage($originPath, $name, $extension='jpg')
+    // {
+    //     $this->deleteFile('app/public/images/' . $name);
 
-        $width = InterventionImage::make($originPath)->width();
-        $fixed_width = 1920;
+    //     $width = InterventionImage::make($originPath)->width();
+    //     $fixed_width = 1920;
 
-        $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
+    //     $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
 
-        if ($width > $fixed_width) {
-            $imgTamp->resize($fixed_width, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-        }
+    //     if ($width > $fixed_width) {
+    //         $imgTamp->resize($fixed_width, null, function ($constraint) {
+    //             $constraint->aspectRatio();
+    //         });
+    //     }
 
-        $imgTamp->save('storage/images/' . $name);
-    }
+    //     $imgTamp->save('storage/files/' . $name);
+    // }
 
-    function uploadThumbnail($originPath, $name, $extension='jpg')
-    {
-        $this->deleteFile('app/public/images_thumbnail/' . $name);
+    // function uploadThumbnail($originPath, $name, $extension='jpg')
+    // {
+    //     $this->deleteFile('app/public/images_thumbnail/' . $name);
 
-        $width = InterventionImage::make($originPath)->width();
-        $fixed_width = 800;
+    //     $width = InterventionImage::make($originPath)->width();
+    //     $fixed_width = 800;
 
-        $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
+    //     $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
 
-        if ($width > $fixed_width) {
-            $imgTamp->resize($fixed_width, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-        }
+    //     if ($width > $fixed_width) {
+    //         $imgTamp->resize($fixed_width, null, function ($constraint) {
+    //             $constraint->aspectRatio();
+    //         });
+    //     }
 
-        $imgTamp->save('storage/images_thumbnail/' . $name);
-    }
+    //     $imgTamp->save('storage/files_thumbnail/' . $name);
+    // }
 
 
-    function uploadImageHome($file_image){
+    function uploadImageHome($file){
 
-        if($file_image!=null){
+        if($file!=null){
             
-            $hash_name  = md5($file_image->getClientOriginalName() . time());
-            $extension  = $file_image->extension();
+            $hash_name  = md5($file->getClientOriginalName() . time());
+            $extension  = $file->extension();
 
             if ($extension != 'png') {
                 $extension = 'jpg';
             }
             $name       = $hash_name . "." . $extension;
 
-            $path = $file_image->getRealPath();
+            // $path = $file->getRealPath();
 
-            $this->uploadThumbnail($path, $name, $extension);
-            $this->uploadImage($path, $name, $extension);
+            // $this->uploadThumbnail($path, $name, $extension);
+            // $this->uploadImage($path, $name, $extension);
+
+            $path = "storage/files";
+            $file->move($path, $name);
            
             return $name;
         }
@@ -82,8 +85,8 @@ class NewsController extends Controller
         $file_name = $file['file'];
 
         if($file_name!=null&&$file_name!=""){
-            $this->deleteFile('app/public/images/' . $file_name);
-            $this->deleteFile('app/public/images_thumbnail/' . $file_name);
+            $this->deleteFile('app/public/files/' . $file_name);
+        
         }        
     }
 
@@ -134,7 +137,7 @@ class NewsController extends Controller
     public function all()
     {
         return json_encode(
-            News::orderBy("created_at", "DESC")->get()
+            News::orderBy("created_at", "DESC")->limit(40)->get()
         );
     }
 

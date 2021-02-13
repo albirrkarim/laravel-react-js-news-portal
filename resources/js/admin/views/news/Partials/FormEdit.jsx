@@ -96,7 +96,7 @@ export default function FormEdit({ item, setIsEditMode, refreshData }) {
                             name: "file",
                             srcBefore:
                                 location.origin +
-                                "/storage/images/" +
+                                "/storage/files/" +
                                 item.file,
                         }}
                         value={file}
