@@ -1,15 +1,16 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { Box, Container, Grid, makeStyles } from "@material-ui/core";
+import { Box, Container, Grid, makeStyles,Button } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import Page from "../../components/Page";
 import Card from "./Card";
 import axios from "axios";
-import CardAdd from "./CardAdd";
+// import CardAdd from "./CardAdd";
 
 import Search from "../../components/Search";
 import SpinnerCenter from "../../components/SpinnerCenter";
 import Placeholder from "../../components/Placeholder";
 
+import ControlPointIcon from "@material-ui/icons/ControlPoint";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -91,7 +92,18 @@ export default function News() {
                 <Box mt={3}>
                     <Grid container spacing={3}>
                         <Grid item xs={4}>
-                            <CardAdd refreshData={refreshData} />
+                             <a 
+                                href={location.origin+"/data/createnews"}>
+                                     <Button
+                                        variant="contained"
+                                        color="primary"
+                                       
+                                        className={classes.button}
+                                        startIcon={<ControlPointIcon />}
+                                    >
+                                        Create
+                                    </Button>
+                            </a>
                         </Grid>
                         <Grid item xs={4}>
                             <Search setSearch={setSearchText} isLoading={isLoading} setIsLoading={setIsLoading} />

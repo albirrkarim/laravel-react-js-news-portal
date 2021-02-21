@@ -6,44 +6,29 @@ use App\Models\News;
 use Illuminate\Http\Request;
 // use Illuminate\Database\QueryException;
 use InterventionImage;
+use Illuminate\Support\Facades\URL;
 
 class NewsController extends Controller
 {
-    // function uploadImage($originPath, $name, $extension='jpg')
-    // {
-    //     $this->deleteFile('app/public/images/' . $name);
+    public function ckupload(Request $request){
+        $file_img=$request->file('upload');
+        if ($file_img) {
+        
+            $name_new=$this->uploadImageHome($file_img);
 
-    //     $width = InterventionImage::make($originPath)->width();
-    //     $fixed_width = 1920;
+            return json_encode([
+                "uploaded" => true,
+                "url" => URL::to('/')."/storage/files/".$name_new,
+            ]);
+        }
 
-    //     $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
-
-    //     if ($width > $fixed_width) {
-    //         $imgTamp->resize($fixed_width, null, function ($constraint) {
-    //             $constraint->aspectRatio();
-    //         });
-    //     }
-
-    //     $imgTamp->save('storage/files/' . $name);
-    // }
-
-    // function uploadThumbnail($originPath, $name, $extension='jpg')
-    // {
-    //     $this->deleteFile('app/public/images_thumbnail/' . $name);
-
-    //     $width = InterventionImage::make($originPath)->width();
-    //     $fixed_width = 800;
-
-    //     $imgTamp = InterventionImage::make($originPath)->encode($extension, 90);
-
-    //     if ($width > $fixed_width) {
-    //         $imgTamp->resize($fixed_width, null, function ($constraint) {
-    //             $constraint->aspectRatio();
-    //         });
-    //     }
-
-    //     $imgTamp->save('storage/files_thumbnail/' . $name);
-    // }
+        return json_encode([
+            "uploaded" => true,
+            "error" =>  [
+                "message" => "could not upload this image"
+            ]
+        ]);
+    }
 
 
     function uploadImageHome($file){
@@ -143,7 +128,7 @@ class NewsController extends Controller
 
     public function create()
     {
-        //
+        return view('layouts.createnews');
     }
     
     public function store(Request $request)
@@ -160,9 +145,9 @@ class NewsController extends Controller
             
             News::create($arr);
 
-            return "true";
+            return redirect()->back()->with('success','Berhasil menambah data');
         } catch (QueryException $ex) {
-            return "false";
+            return redirect()->back()->with('error','Gagal menambah data');
         }
     }
 
@@ -172,9 +157,11 @@ class NewsController extends Controller
     }
 
  
-    public function edit()
+    public function edit($news_id)
     {
-        //
+        $data= News::where("news_id",$news_id)->first();
+
+        return view('layouts.news',compact(['data']));
     }
 
 
@@ -195,9 +182,9 @@ class NewsController extends Controller
             
             News::where("news_id",$news_id)->update($arr);
 
-            return "true";
+            return redirect()->back()->with('success','Berhasil mengedit data');
         } catch (QueryException $ex) {
-            return "false";
+            return redirect()->back()->with('error','Gagal mengedit data');
         }
     }
 

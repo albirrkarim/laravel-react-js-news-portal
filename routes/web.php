@@ -18,7 +18,7 @@ Route::get('clear', 'HomeController@clear');
 Route::get('cache', 'HomeController@cache');
 
 Route::middleware(["optimize"])->group( function () {
-  Route::get('/', 'HomeController@welcome');
+  Route::get('/', 'HomeController@welcome')->name('wellcome');
   Route::get('404', 'HomeController@welcome');
   Route::get('news/{any?}/{id?}', 'HomeController@welcome');
   Route::get('dashboard/{any?}/{id?}', 'HomeController@welcome');
@@ -44,8 +44,11 @@ Route::middleware(["auth"])->group( function () {
       Route::post("contents/{contents_id}",    'ContentsController@update');
       Route::get("search/contents/{text}",    'ContentsController@search');
 
-      Route::resource('news',     'NewsController');
+      Route::resource('news',          'NewsController');
+      Route::get("createnews",          'NewsController@create');
+      Route::get("editnews/{news_id}", 'NewsController@edit');
       Route::post("news/{news_id}",    'NewsController@update');
+      Route::post('ckupload',          'NewsController@ckupload');
       Route::get("search/news/{text}",    'NewsController@search');
 
       Route::resource('categories',     'CategoriesController');

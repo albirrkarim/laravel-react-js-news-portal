@@ -13,7 +13,7 @@ import {
 
 import DeleteButton from "../../components/CardCRUD/DeleteButton";
 import { str_limit, alphaNumeric } from "../../utils/helper";
-import FormEdit from "./Partials/FormEdit";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,60 +34,27 @@ const CardClass = ({ item, refreshData }) => {
     const classes = useStyles();
 
     const [value, setValue] = useState(0);
-    const [isEditMode, setIsEditMode] = useState(false);
-
+   
     const BASE_URL = location.origin + "/data/news/" + item.news_id;
 
     return (
         <Grid
             item
-            lg={isEditMode ? 12 : 4}
-            md={isEditMode ? 12 : 4}
-            sm={isEditMode ? 12 : 6}
+            lg={ 4}
+            md={ 4}
+            sm={ 6}
             xs={12}
         >
             <Card
                 className={clsx(classes.root) + " p-3"}
-                style={isEditMode ? { border: "5px solid #002984" } : {}}
             >
-                {isEditMode ? (
-                    <CardContent>
-                        <Grid container spacing={3}>
-                            <Grid
-                                item
-                                xs
-                                className="justify-content-start d-flex"
-                            >
-                                <h5>Edit </h5>
-                            </Grid>
-                            <Grid
-                                item
-                                xs
-                                className="justify-content-end d-flex"
-                            >
-                                <Button
-                                    color="secondary"
-                                    onClick={() => {
-                                        setIsEditMode(false);
-                                    }}
-                                >
-                                    Close
-                                </Button>
-                            </Grid>
-                        </Grid>
-
-                        <FormEdit
-                            mode={mode}
-                            item={item}
-                            setIsEditMode={setIsEditMode}
-                            refreshData={refreshData}
-                        />
-                    </CardContent>
-                ) : (
+                
                     <CardContent className="p-0">
                         {
                             item.file && 
                             <Box display="flex" justifyContent="center" mb={3}>
+                                <a 
+                                href={location.origin+"/data/editnews/"+item.news_id}>
                                 <img
                                     className="rounded w-100 pointer"
                                     style={{ maxHeight: 300 + "px" }}
@@ -97,10 +64,9 @@ const CardClass = ({ item, refreshData }) => {
                                         item.file
                                     }
                                     alt={item.name}
-                                    onClick={() => {
-                                        setIsEditMode(true);
-                                    }}
+                                  
                                 />
+                                </a>
                             </Box>
                         }
                         
@@ -114,25 +80,25 @@ const CardClass = ({ item, refreshData }) => {
                         </Typography>
 
                         <div className="p-2">
-                            <Button   
+                            <a 
+                                href={location.origin+"/data/editnews/"+item.news_id}>
+                                <Button   
 
-                                size="small"
-                                variant="contained"
-                                className="mr-2"
-                                onClick={() => {
-                                    setIsEditMode(true);
-                                }}
-                            >
+                                    size="small"
+                                    variant="contained"
+                                    className="mr-2"
+                                >
 
-                                Edit
-                            </Button>
+                                    Edit
+                                </Button>
+                            </a>
                             <DeleteButton
                                 url={BASE_URL}
                                 refreshData={refreshData}
                             />
                         </div>
                     </CardContent>
-                )}
+        
             </Card>
         </Grid>
     );

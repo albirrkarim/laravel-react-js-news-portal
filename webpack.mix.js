@@ -10,7 +10,6 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
 mix.js('resources/js/user/index.jsx', 'public/js/app.js')
 	.react()
 	.options({
