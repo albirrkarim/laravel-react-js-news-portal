@@ -114,98 +114,106 @@ const CardAddClass = ({ refreshData }) => {
             );
         } else {
             return (
+
                 <Card className={clsx(classes.root)}>
                     <CardContent>
-                        <form onSubmit={store} method="post">
-                            <TextField type="hidden" name="role" value={role} />
+                        <Grid container >
+                            
+                            <Grid item xs={6} >
+                                                    
+                                <form onSubmit={store} method="post">
+                                    <TextField type="hidden" name="role" value={role} />
 
-                            <InputLabel>Key</InputLabel>
-                            <Select
-                                labelId="key"
-                                value={key}
-                                name="key"
-                                onChange={(e) => {
-                                    setKey(e.target.value);
-                                }}
-                            >
-                                {dataKey.map((item, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        onClick={() => {
-                                            setRole(item[1]);
+                                    <InputLabel>Key</InputLabel>
+                                    <Select
+                                        labelId="key"
+                                        value={key}
+                                        name="key"
+                                        onChange={(e) => {
+                                            setKey(e.target.value);
                                         }}
-                                        value={item[0]}
                                     >
-                                        {item[0]}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                                        {dataKey.map((item, index) => (
+                                            <MenuItem
+                                                key={index}
+                                                onClick={() => {
+                                                    setRole(item[1]);
+                                                }}
+                                                value={item[0]}
+                                            >
+                                                {item[0]}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
 
-                            {role == "text" ? (
-                                <TextField
-                                    label="value"
-                                    required
-                                    fullWidth
-                                    multiline
-                                    rows={10}
-                                    margin="dense"
-                                    name="value"
-                                    value={value}
-                                    onChange={(e) => {
-                                        setValue(e.target.value);
-                                    }}
-                                    variant="outlined"
-                                />
-                            ) : (
-                                <div className="form-group">
-                                    <Button
-                                        variant="contained"
-                                        component="label"
-                                        fullWidth
-                                    >
-                                        {fileName}
-                                        <input
-                                            type="file"
-                                            onChange={changeFile}
-                                            style={{ display: "none" }}
-                                            name="file"
-                                        />
-                                    </Button>
-                                </div>
-                            )}
-
-                            <div className="form-group">
-                                <Grid container spacing={3}>
-                                    <Grid
-                                        item
-                                        xs
-                                        className="justify-content-start d-flex"
-                                    >
-                                        <Button
-                                            color="secondary"
-                                            onClick={() => {
-                                                setIsEditMode(false);
+                                    {role == "text" ? (
+                                        <TextField
+                                            label="value"
+                                            required
+                                            fullWidth
+                                            multiline
+                                            rows={10}
+                                            margin="dense"
+                                            name="value"
+                                            value={value}
+                                            onChange={(e) => {
+                                                setValue(e.target.value);
                                             }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs
-                                        className="justify-content-end d-flex"
-                                    >
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                        >
-                                            Save
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </div>
-                        </form>
+                                            variant="outlined"
+                                        />
+                                    ) : (
+                                        <div className="form-group m-2">
+                                            <Button
+                                                variant="contained"
+                                                component="label"
+                                                fullWidth
+                                            >
+                                                {fileName}
+                                                <input
+                                                    type="file"
+                                                    onChange={changeFile}
+                                                    style={{ display: "none" }}
+                                                    name="file"
+                                                />
+                                            </Button>
+                                        </div>
+                                    )}
+
+                                    <div className="form-group">
+                                        <Grid container spacing={3}>
+                                            <Grid
+                                                item
+                                                xs
+                                                className="justify-content-start d-flex"
+                                            >
+                                                <Button
+                                                    color="secondary"
+                                                    onClick={() => {
+                                                        setIsEditMode(false);
+                                                    }}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs
+                                                className="justify-content-end d-flex"
+                                            >
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    color="primary"
+                                                >
+                                                    Save
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </div>
+                                </form>
+
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Card>
             );

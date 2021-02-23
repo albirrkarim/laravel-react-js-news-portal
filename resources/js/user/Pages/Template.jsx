@@ -11,13 +11,13 @@ import { Grid, Button, Typography } from "@material-ui/core";
 import { BsChatDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-import Banner from "../Components/Banner";
 import RunningText from "../Components/RunningText";
 
 import Search from "../Components/Search";
 
 import SpinnerCenter from "../Components/SpinnerCenter";
 import ResultList from "../Components/ResultList";
+import ImageBanner from "../Components/ImageBanner";
 
 import axios from "axios";
 
@@ -48,7 +48,7 @@ export default function Template({ children = null }) {
                 <Grid item lg={6} md={6} sm={12} xs={12} container justify="flex-start">
                     {children && (
                         <Link className="text-decoration-none" to="/">
-                            <img style={{maxWidth:"200px"}} src={location.origin+"/images/tdscc.png"} />
+                            <ImageBanner className="ml-2" style={{maxWidth:"200px", maxHeight : "100px"}} text="logo" />
                         </Link>
                     )}
                 </Grid>
@@ -111,7 +111,19 @@ export default function Template({ children = null }) {
                         <div className="p-2">
                             {children}
                           
-                            <Banner />
+                            <Grid container justify="center" className="mt-4 mb-1">
+                                <Grid
+                                    item
+                                    lg={10}
+                                    md={10}
+                                    sm={12}
+                                    xs={12}
+                                    container
+                                    justify="center"
+                                >
+                                    <ImageBanner style={{ maxHeight: "100px" }} text="banner_bottom" />
+                                </Grid>
+                            </Grid>             
                             <RunningText text="Selamat Datang di Portal TDSCC" />
                     
                         </div>
@@ -120,25 +132,25 @@ export default function Template({ children = null }) {
                             <Grid container spacing={3}>
                                 <Grid item lg={6} md={6} sm={12} xs={12}>
                                     <div className="vertical-center bg-light rounded">
-                                        <img style={{maxWidth:"400px"}} src={location.origin+"/images/tdscc.png"} />
+                                        <ImageBanner 
+                                            style={{maxWidth:"400px"}} 
+                                            text="logo" 
+                                            placeholder={location.origin+"/images/tdscc.png"}
+                                        />
                                     </div>
                                 </Grid>
                                 <Grid item lg={6} md={6} sm={12} xs={12}>
-                                    <img
-                                        style={{ maxHeight: "250px" }}
-                                        className="img-fluid rounded m-3"
-                                        src={
-                                            location.origin +
-                                            "/images/gedung1.jpg"
-                                        }
+                                    <ImageBanner 
+                                        style={{maxWidth:"300px"}} 
+                                        className="rounded m-3" 
+                                        placeholder={location.origin+"/images/gedung1.jpg"}
+                                        text="home1" 
                                     />
-                                    <img
-                                        style={{ maxHeight: "250px" }}
-                                        className="img-fluid rounded m-3"
-                                        src={
-                                            location.origin +
-                                            "/images/gedung2.jpg"
-                                        }
+                                    <ImageBanner 
+                                        style={{maxWidth:"250px"}} 
+                                        className="rounded m-3" 
+                                        placeholder={location.origin+"/images/gedung2.jpg"}
+                                        text="home2" 
                                     />
                                 </Grid>
                             </Grid>

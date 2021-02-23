@@ -27,11 +27,13 @@
 
 .scrollable::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 /* width */
 .scrollable-show::-webkit-scrollbar {
     width: 8px !important;
+    height: 8px !important;
 }
 
 /* Track */
