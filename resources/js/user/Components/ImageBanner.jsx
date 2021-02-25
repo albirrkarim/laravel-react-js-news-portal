@@ -19,6 +19,7 @@ export default function BannerLeft({text="",style={},className="",placeholder=nu
             {file ? (
                 <img
                     className={"img-fluid "+className}
+                    loading="lazy"
                     style={style}
                     src={location.origin + "/storage/files/" + file}
                 />
@@ -29,6 +30,7 @@ export default function BannerLeft({text="",style={},className="",placeholder=nu
 
                         <img
                             className={"img-fluid "+className}
+                            loading="lazy"
                             style={style}
                             src={placeholder}
                         />

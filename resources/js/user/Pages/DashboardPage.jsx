@@ -37,7 +37,7 @@ export default function DashboardPage() {
     }, [contents_id]);
 
     return (
-        <Template>
+        <Template mode="Dashboard">
             <h1 className="text-center mb-3">Dashboard</h1>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={3} lg={3}>

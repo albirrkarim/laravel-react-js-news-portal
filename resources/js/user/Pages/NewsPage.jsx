@@ -80,7 +80,7 @@ export default function NewsPage (){
 	},[news_id]);
 
 	return (
-		<Template>
+		<Template mode="News">
 			<h1 className="text-center mb-3">NEWS FEED</h1>
 			{
 

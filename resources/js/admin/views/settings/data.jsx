@@ -4,4 +4,6 @@ export default [
 	["logo",'image'],
 	["home1",'image'],
 	["home2",'image'],
+	["title",'text'],
+	["running_text",'text'],
 ];

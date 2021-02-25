@@ -20,6 +20,7 @@ import {
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import dataKey from "./data";
+import DeleteButton from "../../components/CardCRUD/DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -112,16 +113,7 @@ const SettingClass = ({ setting, refreshData }) => {
             });
     };
 
-    let deleteFunc = (e) => {
-        axios
-            .delete(BASE_URL)
-            .then(() => {
-                refreshData();
-            })
-            .catch(function (error) {
-                alert(error.message);
-            });
-    };
+  
 
     let getForm = () => {
         return (
@@ -241,11 +233,7 @@ const SettingClass = ({ setting, refreshData }) => {
     } else {
         return (
             <Card className={clsx(classes.root)}>
-                <CardContent
-                    onClick={() => {
-                        setIsEditMode(true);
-                    }}
-                >
+                <CardContent>
                     <Typography align="center" gutterBottom variant="h4">
                         {str_limit(key)}
                     </Typography>
@@ -290,19 +278,21 @@ const SettingClass = ({ setting, refreshData }) => {
                 <Divider />
                 <Box p={2}>
                     <Button
-                        variant="contained"
                         size="small"
-                        color="secondary"
-                        className={classes.button}
-                        startIcon={<DeleteIcon />}
-                        onClick={(e) =>
-                            window.confirm(
-                                "Are you sure you wish to delete this item?"
-                            ) && deleteFunc(e)
-                        }
-                    >
-                        Delete
+                        variant="contained"
+                        className="mr-2"
+                        onClick={() => {
+                            setIsEditMode(true);
+                        }}
+
+                        >
+
+                        Edit
                     </Button>
+                    <DeleteButton
+                        url={BASE_URL}
+                        refreshData={refreshData}
+                    />
                 </Box>
             </Card>
         );
